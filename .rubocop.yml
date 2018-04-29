@@ -1,0 +1,39 @@
+inherit_from: .rubocop_todo.yml
+
+# 自動生成されるものはチェック対象から除外する
+AllCops:
+  Exclude:
+    - 'vendor/**/*' # rubocop config/default.yml
+    - 'db/**/*'
+    - 'config/initializers/devise.rb'
+    - 'app/admin/dashboard.rb'
+
+# Missing magic comment # frozen_string_literal: true. を無視
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# classやmoduleの先頭コメント
+Documentation:
+  Enabled: false
+
+# 行長
+Metrics/LineLength:
+  Max: 120
+
+# ブロック内の行数
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+    - config/**/*
+
+#snake_caseの除外
+#**/Gemfileだとredisだけ除外できなかったからフルパス指定
+FileName:
+  Exclude:
+    - '/Users/nakamurakenji/ruby/analive/vendor/bundle/ruby/2.4.0/gems/redis-4.0.1/.travis/Gemfile'
+    - 'Gemfile'
+
+#nestスタイルの無効化
+Style/ClassAndModuleChildren:
+  Description: 'Checks style of children classes and modules.'
+  Enabled: false
