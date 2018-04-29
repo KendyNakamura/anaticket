@@ -1,0 +1,15 @@
+current directory: /Users/nakamurakenji/ruby/anaticket/vendor/bundle/ruby/2.4.0/gems/debug_inspector-0.0.3/ext/debug_inspector
+/Users/nakamurakenji/.rbenv/versions/2.4.3/bin/ruby -r ./siteconf20180430-27792-m28840.rb extconf.rb
+creating Makefile
+
+current directory: /Users/nakamurakenji/ruby/anaticket/vendor/bundle/ruby/2.4.0/gems/debug_inspector-0.0.3/ext/debug_inspector
+make "DESTDIR=" clean
+
+current directory: /Users/nakamurakenji/ruby/anaticket/vendor/bundle/ruby/2.4.0/gems/debug_inspector-0.0.3/ext/debug_inspector
+make "DESTDIR="
+compiling debug_inspector.c
+linking shared-object debug_inspector.bundle
+
+current directory: /Users/nakamurakenji/ruby/anaticket/vendor/bundle/ruby/2.4.0/gems/debug_inspector-0.0.3/ext/debug_inspector
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 debug_inspector.bundle ./.gem.20180430-27792-12aroio
