@@ -40,6 +40,8 @@ gem 'jquery-turbolinks'
 gem 'popper_js'
 gem 'tether-rails'
 
+gem 'devise'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end

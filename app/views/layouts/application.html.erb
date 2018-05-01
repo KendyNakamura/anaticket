@@ -5,11 +5,20 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <%= stylesheet_link_tag    'application', media: 'all' %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
-    <%= yield %>
+    <%= render "layouts/header"%>
+    <div class="container py-4">
+      <%= flash_message(flash[:success], :success) if flash[:success]%>
+      <%= flash_message(flash[:error], :danger) if flash[:error]%>
+      <%= flash_message(flash[:alert], :warning) if flash[:alert]%>
+      <%= flash_message(flash[:notice], :info) if flash[:notice]%>
+      <%= yield %>
+    </div>
   </body>
 </html>
