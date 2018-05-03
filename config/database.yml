@@ -48,7 +48,11 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  socket: /tmp/mysql.sock
   database: anaticket_production
   username: anaticket
-  password: <%= ENV['ANATICKET_DATABASE_PASSWORD'] %>
+  password: Rails.application.credentials.DB_PASSWORD
+  # password: <%= ENV['ANATICKET_DATABASE_PASSWORD'] %>

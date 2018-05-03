@@ -6,7 +6,8 @@ ruby '2.4.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
 # Use mysql as the database for Active Record
-gem 'mysql2', '>= 0.4.4', '< 0.6.0'
+gem 'mysql2', '>= 0.4.4', '< 0.6.0', group: :development
+gem 'pg', group: :production
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -41,6 +42,7 @@ gem 'popper_js'
 gem 'tether-rails'
 
 gem 'devise'
+gem 'omniauth-facebook'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
