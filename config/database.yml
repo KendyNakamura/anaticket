@@ -51,8 +51,8 @@ production:
   adapter: postgresql
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  socket: /tmp/mysql.sock
+  # socket: /tmp/mysql.sock
   database: anaticket_production
-  username: anaticket
+  username: nakamurakenji
   password: Rails.application.credentials.DB_PASSWORD
   # password: <%= ENV['ANATICKET_DATABASE_PASSWORD'] %>
