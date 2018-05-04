@@ -44,6 +44,8 @@ gem 'tether-rails'
 gem 'devise'
 gem 'omniauth-facebook'
 
+gem 'rails_12factor', group: :production
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
