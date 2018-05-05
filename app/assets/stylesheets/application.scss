@@ -1,1 +1,17 @@
 @import "bootstrap";
+
+.lg {
+  display: inline;
+}
+.sm {
+  display: none;
+}
+
+@media screen and (max-width: 480px){
+  .lg {
+    display: none;
+  }
+  .sm {
+    display: inline;
+  }
+}
