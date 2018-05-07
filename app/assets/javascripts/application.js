@@ -18,8 +18,8 @@
 //= require activestorage
 //= require_tree .
 
-$(function(){
-  $('.btn_menu').click(function(){
-    $('nav').toggleClass('open');}
-  });
-})
+// $(function(){
+//   $('.btn_menu').click(function(){
+//     $('nav').toggleClass('open');}
+//   });
+// })
