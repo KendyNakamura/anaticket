@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-  # devise_scope :user do
-  #   delete :sign_out, to: 'devise/sessions#destroy', as: :destroy_user_session
-  # end
   root 'home#index'
-  get 'event/new' => 'events#new'
-  resource :event, only: [:create]
+  # event
+  resource :events, only: %i[new create]
+  get 'events/:id' => 'events#show'
+  # devise
   devise_scope :user do
     get 'users/sign_out' => 'devise/sessions#destroy'
   end
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 end

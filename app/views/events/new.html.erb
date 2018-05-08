@@ -1,5 +1,5 @@
 <h1>新規イベント作成</h1>
-  <%= form_for @event, url: event_path, class: "row" do |f| %>
+  <%= form_for @event, url: events_path, class: "row" do |f| %>
     <div class="col-lg-6 mt-5">
       <h5><%= f.label :タイトル %></h5>
       <%= f.text_field :title, class: "form-control mb-3" %>

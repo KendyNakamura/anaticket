@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
-  before_action :authenticate_user!, only: [:new_event]
-
   def index
-    @events = Event.all
+    @events = Event.order('created_at desc')
   end
 end
