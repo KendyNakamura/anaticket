@@ -1,3 +1,21 @@
 <%= @event.title %>
 <%= @event.content %>
 <%= @event.user.id %>
+
+<% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
+  <%= form_with model: @join, url: joins_path, local: true do |f| %>
+    <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+    <%= f.submit value: "参加する", class: "btn btn-primary" %>
+  <% end %>
+<% else %>
+  <%= form_with model: @join, url: joins_path, method: "delete", local: true do |f| %>
+    <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+    <%= f.submit value: "キャンセル", class: "btn btn-danger" %>
+  <% end %>
+<% end %>
+
+<% @joins.each do |join| %>
+  <p><%= join.user.id %></p>
+<% end %>

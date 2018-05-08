@@ -22,7 +22,8 @@
 #
 
 class User < ApplicationRecord
-  has_many :events, inverse_of: :user
+  has_many :event, inverse_of: :user
+  has_many :joins, inverse_of: :user
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and
   devise :database_authenticatable, :registerable,

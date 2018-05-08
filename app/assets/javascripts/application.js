@@ -18,6 +18,7 @@
 //= require activestorage
 //= require_tree .
 
+// 制限付きイベント作成時
 $(function() {
   $('#password').addClass("hide");
   $('#passwordConfirmation').addClass("hide");

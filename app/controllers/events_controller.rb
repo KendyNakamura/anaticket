@@ -7,6 +7,8 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find_by(id: params[:id])
+    @join = Join.new
+    @joins = Join.where(event_id: @event.id)
   end
 
   def create

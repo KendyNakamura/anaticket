@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   # event
   resource :events, only: %i[new create]
   get 'events/:id' => 'events#show'
+  # join
+  resource :joins, only: %i[create destroy]
   # devise
   devise_scope :user do
     get 'users/sign_out' => 'devise/sessions#destroy'
