@@ -7,5 +7,5 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 5.times do |no|
-  Event.create(:title => "タイトル #{no}", :content => "イベント #{no}")
+  Event.create(:title => "タイトル #{no}", :content => "イベント #{no}", :password => "pass#{no}")
 end

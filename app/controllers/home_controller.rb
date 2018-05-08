@@ -4,8 +4,4 @@ class HomeController < ApplicationController
   def index
     @events = Event.all
   end
-
-  def new_event
-    @event = Event.new
-  end
 end

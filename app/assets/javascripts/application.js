@@ -20,12 +20,15 @@
 
 $(function() {
   $('#password').addClass("hide");
+  $('#passwordConfirmation').addClass("hide");
 
   $('#check').click(function() {
     if ( $(this).prop('checked') == false ) {
       $('#password').addClass("hide");
+      $('#passwordConfirmation').addClass("hide");
     } else {
       $('#password').removeClass("hide");
+      $('#passwordConfirmation').removeClass("hide");
     }
   });
 });
