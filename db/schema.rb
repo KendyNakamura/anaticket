@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_08_091449) do
+ActiveRecord::Schema.define(version: 2018_05_08_123224) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2018_05_08_091449) do
     t.string "password_digest"
     t.string "check"
     t.integer "user_id"
+    t.integer "max_persons"
   end
 
   create_table "joins", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

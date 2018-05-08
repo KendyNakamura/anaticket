@@ -1,12 +1,17 @@
-<%= @event.title %>
-<%= @event.content %>
+タイトル<%= @event.title %>
+内容<%= @event.content %>
+募集人数<%= @event.max_persons %>
 <%= @event.user.id %>
 
 <% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
-  <%= form_with model: @join, url: joins_path, local: true do |f| %>
-    <%= f.hidden_field :event_id, value: "#{@event.id}" %>
-    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-    <%= f.submit value: "参加する", class: "btn btn-primary" %>
+  <% if Join.where(event_id: @event.id).count == @event.max_persons %>
+    <div class="btn btn-secondary">満員です</div>
+  <% else %>
+    <%= form_with model: @join, url: joins_path, local: true do |f| %>
+      <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+      <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+      <%= f.submit value: "参加する", class: "btn btn-primary" %>
+    <% end %>
   <% end %>
 <% else %>
   <%= form_with model: @join, url: joins_path, method: "delete", local: true do |f| %>
