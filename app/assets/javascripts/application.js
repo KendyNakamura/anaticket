@@ -18,8 +18,14 @@
 //= require activestorage
 //= require_tree .
 
-// $(function(){
-//   $('.btn_menu').click(function(){
-//     $('nav').toggleClass('open');}
-//   });
-// })
+$(function() {
+  $('#password').addClass("hide");
+
+  $('#check').click(function() {
+    if ( $(this).prop('checked') == false ) {
+      $('#password').addClass("hide");
+    } else {
+      $('#password').removeClass("hide");
+    }
+  });
+});

@@ -6,6 +6,6 @@ class HomeController < ApplicationController
   end
 
   def new_event
-    @event = Event.find_by(id: params[:id])
+    @event = Event.new
   end
 end
