@@ -1,10 +1,26 @@
-タイトル<%= @event.title %>
-内容<%= @event.content %>
-募集人数<%= @event.max_persons %>
-<%= @event.user.id %>
+<h4>タイトル</h4>
+<div class="mb-3">
+<%= @event.title %>
+</div>
+<h4>内容</h4>
+<div class="mb-3">
+<%= @event.content %>
+</div>
+<h4>募集人数</h4>
+<div class="mb-3">
+<%= @event.max_persons %>人
+</div>
+<h4>開始日</h4>
+<div class="mb-3">
+<%= @event.start_date %>
+</div>
+<h4>開始時間</h4>
+<div class="mb-3">
+<%= @event.start_time.to_s(:shorttime) %>
+</div>
 
 <% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
-  <% if Join.where(event_id: @event.id).count == @event.max_persons %>
+  <% if Join.where(event_id: @event.id).count == @event.max_persons && @event.max_persons != 0 %>
     <div class="btn btn-secondary">満員です</div>
   <% else %>
     <%= form_with model: @join, url: joins_path, local: true do |f| %>
@@ -21,6 +37,7 @@
   <% end %>
 <% end %>
 
+<h5 class="my-4">参加者</h5>
 <% @joins.each do |join| %>
-  <p><%= join.user.id %></p>
+  <p class="border-top py-2"><%= join.user.id %></p>
 <% end %>

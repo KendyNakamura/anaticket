@@ -25,6 +25,13 @@ class EventsController < ApplicationController
   protected
 
   def event_params
-    params.require(:event).permit(:title, :content, :max_persons, :check, :password, :password_confirmation)
+    params.require(:event).permit(:title,
+                                  :content,
+                                  :max_persons,
+                                  :check,
+                                  :start_date,
+                                  :start_time,
+                                  :password,
+                                  :password_confirmation)
   end
 end

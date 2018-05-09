@@ -6,11 +6,25 @@
       <h4><%= f.label :内容 %></h4>
       <%= f.text_area :content, class: "form-control mb-3", style: "height:200px;" %>
       <h5><%= f.label :募集人数 %></h5>
-      <%= f.number_field :max_persons, class: "form-control", min: 0, max: 999 %>
-      <!-- <h5 class="pt-3"><%= f.label :開始日 %></h5> -->
-      <!-- <%= f.date_field :content, class: "form-control" %> -->
-      <!-- <h5 class="pt-3"><%= f.label :開始時間 %></h5> -->
-      <!-- <%= f.time_select :content, class: "form-control" %> <br /> -->
+      <%= f.number_field :max_persons, class: "form-control", min: 0, max: 999, placeholder: "人数無制限の場合、0にしてください" %>
+      <h5 class="pt-3"><%= f.label :開始日 %></h5>
+      <%= raw sprintf(
+          f.date_select(
+            :start_date,
+            class: "form-control",
+            use_month_numbers: true,
+            start_year: Date.today.year,
+            end_year: Date.today.year+1,
+            date_separator: '%s',
+            datetime_separator: '%s'),
+            '年', '月') + '日 ' %>
+      <h5 class="pt-3"><%= f.label :開始時間 %></h5>
+      <%= raw sprintf(
+          f.time_select(
+            :start_time,
+            class: "form-control",
+            time_separator: '%s'),
+            '時') + '分' %> <br />
       <p class="pt-3"><%= f.check_box :check, id: "check", checked_value: "1", unchecked_value: "0" %>限定公開にする</p>
       <%= f.password_field :password, id: "password", placeholder: "パスワード(4桁以上)" %>
       <%= f.password_field :password_confirmation, id: "passwordConfirmation", placeholder: "確認パスワード" %>
