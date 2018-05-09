@@ -1,5 +1,5 @@
-<% if event.check == "0" %>
-<div class="border-top py-3 row">
+<% if event.check != "1" %>
+<div class="border-top py-3 row pl-4">
   <div class="col-12 px-2">
     <h4><%= link_to "#{event.title}", "/events/#{event.id}", class: "w-100" %></h4>
   </div>

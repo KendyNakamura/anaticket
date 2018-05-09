@@ -1,0 +1,12 @@
+<h2>プロフィール</h2>
+<% if @user.id == current_user.id %>
+  <%= form_for @user, url: "/home/#{@user.id}/update", method: "post" do |f| %>
+    <%= f.text_field :name, class: "form-control mb-3", value: "#{@user.name}" %>
+    <span class="input-group-btn align-bottom">
+      <%= f.submit class: "btn btn-primary mt-4 float-right", value: "保存する" %>
+    </span>
+  <% end %>
+  <%= link_to "パスワードを変更する", edit_user_registration_path %>
+<% else %>
+  <%= @user.name %>
+<% end %>

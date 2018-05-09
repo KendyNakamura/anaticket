@@ -1,0 +1,31 @@
+<h1>確認画面</h1>
+<%= form_for @event, url: events_path, class: "row" do |f| %>
+  <div class="col-lg-6 mt-5">
+    <h5><%= f.label :タイトル %></h5>
+    <p class="mb-3"><%= @event.title %></p>
+    <%= f.hidden_field :title %>
+    <h4><%= f.label :内容 %></h4>
+    <p class="mb-3"><%= @event.content%></p>
+    <%= f.hidden_field :content %>
+    <h5><%= f.label :募集人数 %></h5>
+    <p class="mb-3"><%= @event.max_persons %></p>
+    <%= f.hidden_field :max_persons %>
+    <h5 class="pt-3"><%= f.label :開始日 %></h5>
+    <p class="mb-3"><%= @event.start_date %></p>
+    <%= f.hidden_field :start_date%>
+    <h5 class="pt-3"><%= f.label :開始時間 %></h5>
+    <p class="mb-3"><%= @event.start_time.to_s(:shorttime) %></p>
+    <%= f.hidden_field :start_time %><br />
+    <% if @event.check == "1" %>
+      <p class="mb-3">限定公開にする</p>
+      <%= f.hidden_field :password %>
+      <%= f.hidden_field :password_confirmation %>
+    <% else %>
+      <p class="mb-3">一般公開にする</p>
+    <% end %>
+    <span class="input-group-btn align-bottom">
+      <%= f.submit class: "btn btn-primary mt-4 mr-3", value: "登録する", data: { confirm: "登録しますか？" } %>
+      <%= f.submit '修正する', name: 'back', class: "btn btn-danger mt-4", value: "修正する" %>
+    </span>
+  </div>
+<% end %>

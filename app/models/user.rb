@@ -27,10 +27,11 @@
 class User < ApplicationRecord
   has_many :event, inverse_of: :user
   has_many :joins, inverse_of: :user
+  attr_accessor :current_password
 
   validates :name, presence: true
   validates :email, presence: true
-  validates :password, presence: true
+  validates :password, presence: true, on: :create
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable,
@@ -46,5 +47,18 @@ class User < ApplicationRecord
       # uncomment the line below to skip the confirmation emails.
       # user.skip_confirmation!
     end
+  end
+
+  def update_without_current_password(params, *options)
+    params.delete(:current_password)
+
+    if params[:password].blank? && params[:password_confirmation].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation)
+    end
+
+    result = update_attributes(params, *options)
+    clean_up_passwords
+    result
   end
 end

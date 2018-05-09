@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, only: [:new]
+  before_action :authenticate_user!, only: %i[new create]
 
   def new
     @event = Event.new
@@ -11,15 +11,22 @@ class EventsController < ApplicationController
     @joins = Join.where(event_id: @event.id)
   end
 
+  def confirm
+    @event = Event.new(event_params)
+    render :new if @event.invalid?
+  end
+
   def create
     @event = Event.new(event_params)
-    @event.user = current_user
-    if @event.save
+    @event.user_id = current_user.id
+    if params[:back]
+      render :new
+    elsif @event.save
       flash[:notice] = 'イベントを作成しました！'
+      redirect_to('/')
     else
-      flash[:danger] = 'イベントの作成に失敗しました。'
+      render :new
     end
-    redirect_to('/')
   end
 
   protected
@@ -29,6 +36,7 @@ class EventsController < ApplicationController
                                   :content,
                                   :max_persons,
                                   :check,
+                                  :user_id,
                                   :start_date,
                                   :start_time,
                                   :password,

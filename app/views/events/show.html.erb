@@ -26,18 +26,18 @@
     <%= form_with model: @join, url: joins_path, local: true do |f| %>
       <%= f.hidden_field :event_id, value: "#{@event.id}" %>
       <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-      <%= f.submit value: "参加する", class: "btn btn-primary" %>
+      <%= f.submit value: "参加する", class: "btn btn-primary", data: { confirm: "参加しますか？" } %>
     <% end %>
   <% end %>
 <% else %>
   <%= form_with model: @join, url: joins_path, method: "delete", local: true do |f| %>
     <%= f.hidden_field :event_id, value: "#{@event.id}" %>
     <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-    <%= f.submit value: "キャンセル", class: "btn btn-danger" %>
+    <%= f.submit value: "キャンセル", class: "btn btn-danger", data: { confirm: "キャンセルしますか？" } %>
   <% end %>
 <% end %>
 
 <h5 class="my-4">参加者</h5>
 <% @joins.each do |join| %>
-  <p class="border-top py-2"><%= join.user.name %></p>
+  <p class="border-top py-2"><%= link_to "#{join.user.name}", "/home/#{join.user.id}" %></p>
 <% end %>

@@ -1,5 +1,5 @@
 <h1>新規イベント作成</h1>
-  <%= form_for @event, url: events_path, class: "row" do |f| %>
+  <%= form_for @event, url: events_confirm_path, class: "row" do |f| %>
     <div class="col-lg-6 mt-5">
       <h5><%= f.label :タイトル %></h5>
       <%= f.text_field :title, class: "form-control mb-3" %>
@@ -29,7 +29,7 @@
       <%= f.password_field :password, id: "password", placeholder: "パスワード(4桁以上)" %>
       <%= f.password_field :password_confirmation, id: "passwordConfirmation", placeholder: "確認パスワード" %>
       <span class="input-group-btn align-bottom">
-        <%= f.submit class: "btn btn-primary mt-4 float-right", value: "作成する" %>
+        <%= f.submit class: "btn btn-primary mt-4 float-right", value: "確認画面へ" %>
       </span>
     </div>
   <% end %>
