@@ -19,22 +19,26 @@
 <%= @event.start_time.to_s(:shorttime) %>
 </div>
 
-<% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
-  <% if Join.where(event_id: @event.id).count == @event.max_persons && @event.max_persons != 0 %>
-    <div class="btn btn-secondary">満員です</div>
+<% if user_signed_in? %>
+  <% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
+    <% if Join.where(event_id: @event.id).count == @event.max_persons && @event.max_persons != 0 %>
+      <div class="btn btn-secondary">満員です</div>
+    <% else %>
+      <%= form_with model: @join, url: joins_path, local: true do |f| %>
+        <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+        <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+        <%= f.submit value: "参加する", class: "btn btn-primary", data: { confirm: "参加しますか？" } %>
+      <% end %>
+    <% end %>
   <% else %>
-    <%= form_with model: @join, url: joins_path, local: true do |f| %>
+    <%= form_with model: @join, url: joins_path, method: "delete", local: true do |f| %>
       <%= f.hidden_field :event_id, value: "#{@event.id}" %>
       <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-      <%= f.submit value: "参加する", class: "btn btn-primary", data: { confirm: "参加しますか？" } %>
+      <%= f.submit value: "キャンセル", class: "btn btn-danger", data: { confirm: "キャンセルしますか？" } %>
     <% end %>
   <% end %>
 <% else %>
-  <%= form_with model: @join, url: joins_path, method: "delete", local: true do |f| %>
-    <%= f.hidden_field :event_id, value: "#{@event.id}" %>
-    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-    <%= f.submit value: "キャンセル", class: "btn btn-danger", data: { confirm: "キャンセルしますか？" } %>
-  <% end %>
+   参加するには<%= link_to "ログイン", new_user_session_path %>が必要です。
 <% end %>
 
 <h5 class="my-4">参加者</h5>
