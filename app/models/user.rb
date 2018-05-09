@@ -19,13 +19,19 @@
 #  unconfirmed_email      :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  provider               :string(255)
+#  uid                    :string(255)
+#  name                   :string(255)
 #
 
 class User < ApplicationRecord
   has_many :event, inverse_of: :user
   has_many :joins, inverse_of: :user
-  # Include default devise modules. Others available are:
-  # :lockable, :timeoutable and
+
+  validates :name, presence: true
+  validates :email, presence: true
+  validates :password, presence: true
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: [:facebook]
@@ -34,8 +40,8 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.name = auth.info.name   # assuming the user model has a name
-      user.image = auth.info.image # assuming the user model has an image
+      user.name = auth.info.name # assuming the user model has a name
+      # user.image = auth.info.image assuming the user model has an image
       # If you are using confirmable and the provider(s) you use validate emails,
       # uncomment the line below to skip the confirmation emails.
       # user.skip_confirmation!

@@ -8,7 +8,7 @@
           <% end %>
           <div class="dropdown-menu dropdown-memu-right btn-menu" area-labelledby="navbarDropdownMenuLink" style="position: absolute;right: 0;left: auto;">
             <%= link_to "＋イベントを作成する", new_events_path, class: "dropdown-item" %>
-            <%= link_to "ログアウト", new_user_session_path, class: "dropdown-item" %>
+            <%= link_to "ログアウト", destroy_user_session_path, class: "dropdown-item" %>
             <!-- マイページを作成する -->
           </div>
         </li>
@@ -18,7 +18,7 @@
       <ul class="navbar-nav">
         <div class="float-right">
           <%= link_to "＋イベントを作成する", new_events_path, class: "btn btn-warning" %>
-          <%= link_to "ログアウト", new_user_session_path, class: "btn btn-danger" %>
+          <%= link_to "ログアウト", destroy_user_session_path, class: "btn btn-danger" %>
           <!-- マイページを作成する -->
         </div>
       </ul>
