@@ -34,7 +34,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :user_url, uniqueness: true
-  # validates :password, presence: true, on: :create
+  validates :password, presence: true, on: :create
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable,

@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   root 'home#index'
   get 'home/:user_url' => 'home#show'
-  post 'home/:user_url/update' => 'home#update', param: :user_url
+  post 'home/:user_url/update' => 'home#update'
   # event
   resource :events, only: %i[new create]
   post 'events/confirm' => 'events#confirm'
-  get 'events/:id' => 'events#show'
+  get 'events/:event_url' => 'events#show'
   # join
   resource :joins, only: %i[create destroy]
   # devise

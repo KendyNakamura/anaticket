@@ -6,7 +6,7 @@ class JoinsController < ApplicationController
     else
       flash[:error] = '参加できませんでした。'
     end
-    redirect_to "/events/#{@join.event.id}"
+    redirect_to "/events/#{@join.event.event_url}"
   end
 
   def destroy
@@ -16,7 +16,7 @@ class JoinsController < ApplicationController
     else
       flash[:error] = 'キャンセルに失敗しました。'
     end
-    redirect_to "/events/#{@join.event.id}"
+    redirect_to "/events/#{@join.event.event_url}"
   end
 
   protected

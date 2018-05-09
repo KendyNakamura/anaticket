@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find_by(id: params[:id])
+    @event = Event.find_by(event_url: params[:event_url])
     @join = Join.new
     @joins = Join.where(event_id: @event.id)
   end
