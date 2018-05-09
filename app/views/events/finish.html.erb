@@ -1,0 +1,25 @@
+<div class="line-it-button" data-lang="ja" data-type="share-a" data-url="http://localhost:3100/events/<%= @event.event_url %>" style="display: none;"></div>
+
+<script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+
+<h5>タイトル</h5>
+<p class="mb-3"><%= @event.title %></p>
+
+<h4>内容</h4>
+<p class="mb-3"><%= @event.content%></p>
+
+<h5>募集人数</h5>
+<p class="mb-3"><%= @event.max_persons %></p>
+
+<h5 class="pt-3">開始日</h5>
+<p class="mb-3"><%= @event.start_date %></p>
+
+<h5 class="pt-3">開始時間</h5>
+<p class="mb-3"><%= @event.start_time.to_s(:shorttime) %></p>
+
+<% if @event.check == "1" %>
+  <p class="mb-3">限定公開のため閲覧にパスワードが必要です</p>
+<% end %>
+
+<p><%= link_to 'トップページへ', root_path %></p>
+<p><%= link_to 'マイページへ', "/home/#{@event.user.user_url}" %></p>

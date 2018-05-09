@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, only: %i[new create]
+  before_action :authenticate_user!, only: %i[new create confirm finish]
 
   def new
     @event = Event.new
@@ -23,10 +23,14 @@ class EventsController < ApplicationController
       render :new
     elsif @event.save
       flash[:notice] = 'イベントを作成しました！'
-      redirect_to('/')
+      redirect_to "/events/finish/#{@event.event_url}"
     else
       render :new
     end
+  end
+
+  def finish
+    @event = Event.find_by(event_url: params[:event_url])
   end
 
   protected
