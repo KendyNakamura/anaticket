@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'home#index'
-  get 'home/:id' => 'home#show'
-  post 'home/:id/update' => 'home#update'
+  get 'home/:user_url' => 'home#show'
+  post 'home/:user_url/update' => 'home#update', param: :user_url
   # event
   resource :events, only: %i[new create]
   post 'events/confirm' => 'events#confirm'

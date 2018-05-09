@@ -22,16 +22,19 @@
 #  provider               :string(255)
 #  uid                    :string(255)
 #  name                   :string(255)
+#  user_url               :string(255)      not null
 #
 
 class User < ApplicationRecord
+  before_create :set_create_user_url
+
   has_many :event, inverse_of: :user
   has_many :joins, inverse_of: :user
   attr_accessor :current_password
 
   validates :name, presence: true
-  validates :email, presence: true
-  validates :password, presence: true, on: :create
+  validates :user_url, uniqueness: true
+  # validates :password, presence: true, on: :create
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable,
@@ -51,14 +54,25 @@ class User < ApplicationRecord
 
   def update_without_current_password(params, *options)
     params.delete(:current_password)
-
     if params[:password].blank? && params[:password_confirmation].blank?
       params.delete(:password)
       params.delete(:password_confirmation)
     end
-
     result = update_attributes(params, *options)
     clean_up_passwords
     result
+  end
+
+  def to_param
+    user_url
+  end
+
+  private
+
+  def set_create_user_url
+    loop do
+      self.user_url = SecureRandom.hex(10)
+      break unless User.where(user_url: user_url).exists?
+    end
   end
 end

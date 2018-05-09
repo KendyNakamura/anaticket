@@ -4,17 +4,17 @@ class HomeController < ApplicationController
   end
 
   def show
-    @user = User.find_by(id: params[:id])
+    @user = User.find_by(user_url: params[:user_url])
   end
 
   def update
-    @user = User.find_by(id: params[:id])
+    @user = User.find_by(user_url: params[:user_url])
     if @user.update(user_params)
       flash[:notice] = '保存しました。'
     else
       flash[:error] = '保存に失敗しました。'
     end
-    redirect_to("/home/#{@user.id}")
+    redirect_to("/home/#{@user.user_url}")
   end
 
   protected

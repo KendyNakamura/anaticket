@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_09_011324) do
+ActiveRecord::Schema.define(version: 2018_05_09_075552) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2018_05_09_011324) do
     t.string "provider"
     t.string "uid"
     t.string "name"
+    t.string "user_url", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
