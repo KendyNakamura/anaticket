@@ -38,6 +38,7 @@ Style/ClassAndModuleChildren:
   Description: 'Checks style of children classes and modules.'
   Enabled: false
 
+# ABCチェックの基準を緩くした
 Metrics/AbcSize:
   Enabled: true
   Max: 20
