@@ -3,10 +3,12 @@
   <%= form_for @user, url: "/home/#{@user.user_url}/update", method: "post" do |f| %>
     <%= f.text_field :name, class: "form-control mb-3", value: "#{@user.name}" %>
     <span class="input-group-btn align-bottom">
-      <%= f.submit class: "btn btn-primary mt-4 float-right", value: "保存する" %>
+      <%= f.submit class: "btn btn-primary my-4", value: "保存する" %>
     </span>
   <% end %>
-  <%= link_to "パスワードを変更する", edit_user_registration_path %>
+  <%= link_to "パスワードを変更する", edit_user_registration_path, class: "float-right" %>
 <% else %>
   <%= @user.name %>
 <% end %>
+
+<p><%= render partial: "events/myevent", collection: @events, locals: {user_id: @user.id} %></p>

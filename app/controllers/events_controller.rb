@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, only: %i[new create confirm finish]
+  before_action :authenticate_user!, only: %i[new show create confirm finish]
 
   def new
     @event = Event.new
@@ -9,7 +9,9 @@ class EventsController < ApplicationController
     @event = Event.find_by(event_url: params[:event_url])
     @join = Join.new
     @joins = Join.where(event_id: @event.id)
-    return unless @event.check == '1' && session[:event_id] != @event.id
+    return unless @event.check == '1' \
+    && session[:event_id] != @event.id \
+    && @event.user.id != current_user.id
     render :password
   end
 
