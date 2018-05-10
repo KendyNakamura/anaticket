@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post 'events/confirm' => 'events#confirm'
   get 'events/:event_url' => 'events#show'
   get 'events/finish/:event_url' => 'events#finish'
+  get 'events/password/:event_url' => 'events#password'
+  post 'events/authenticate/:event_url' => 'events#authenticate'
   # join
   resource :joins, only: %i[create destroy]
   # devise

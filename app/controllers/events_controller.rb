@@ -9,6 +9,24 @@ class EventsController < ApplicationController
     @event = Event.find_by(event_url: params[:event_url])
     @join = Join.new
     @joins = Join.where(event_id: @event.id)
+    return unless @event.check == '1' && session[:event_id] != @event.id
+    render :password
+  end
+
+  def password
+    @event = Event.find_by(event_url: params[:event_url])
+  end
+
+  def authenticate
+    @event = Event.find_by(event_url: params[:event_url])
+    if @event.authenticate(session_params[:value])
+      flash[:notice] = '認証しました'
+      session[:event_id] = @event.id
+      redirect_to "/events/#{@event.event_url}"
+    else
+      flash[:notice] = 'パスワードが違います'
+      render :password
+    end
   end
 
   def confirm
@@ -45,5 +63,9 @@ class EventsController < ApplicationController
                                   :start_time,
                                   :password,
                                   :password_confirmation)
+  end
+
+  def session_params
+    params.require(:event).permit(:value)
   end
 end

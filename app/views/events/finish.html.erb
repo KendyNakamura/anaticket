@@ -9,7 +9,11 @@
 <p class="mb-3"><%= @event.content%></p>
 
 <h5>募集人数</h5>
-<p class="mb-3"><%= @event.max_persons %></p>
+<% if @event.max_persons == 0 %>
+  <p class="mb-3">制限なし</p>
+<% else %>
+  <p class="mb-3"><%= @event.max_persons %></p>
+<% end %>
 
 <h5 class="pt-3">開始日</h5>
 <p class="mb-3"><%= @event.start_date %></p>

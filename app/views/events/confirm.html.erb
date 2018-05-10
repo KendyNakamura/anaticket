@@ -8,7 +8,11 @@
     <p class="mb-3"><%= @event.content%></p>
     <%= f.hidden_field :content %>
     <h5><%= f.label :募集人数 %></h5>
-    <p class="mb-3"><%= @event.max_persons %></p>
+    <% if @event.max_persons == 0 %>
+      <p class="mb-3">制限なし</p>
+    <% else %>
+      <p class="mb-3"><%= @event.max_persons %></p>
+    <% end %>
     <%= f.hidden_field :max_persons %>
     <h5 class="pt-3"><%= f.label :開始日 %></h5>
     <p class="mb-3"><%= @event.start_date %></p>
@@ -23,6 +27,7 @@
     <% else %>
       <p class="mb-3">一般公開にする</p>
     <% end %>
+    <%= f.hidden_field :check %>
     <span class="input-group-btn align-bottom">
       <%= f.submit class: "btn btn-primary mt-4 mr-3", value: "登録する", data: { confirm: "登録しますか？" } %>
       <%= f.submit '修正する', name: 'back', class: "btn btn-danger mt-4", value: "修正する" %>

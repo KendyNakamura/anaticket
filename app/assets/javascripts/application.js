@@ -33,3 +33,12 @@ $(function() {
     }
   });
 });
+
+$(function(){
+  $('#passConfirm').click(function(){
+    var password = gon.password
+    if ( password ) {
+      $('#private').removeClass('d-none');
+    }
+  });
+});

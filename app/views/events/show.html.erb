@@ -1,22 +1,22 @@
 <h4>タイトル</h4>
 <div class="mb-3">
-<%= @event.title %>
+  <%= @event.title %>
 </div>
 <h4>内容</h4>
 <div class="mb-3">
-<%= @event.content %>
+  <%= @event.content %>
 </div>
 <h4>募集人数</h4>
 <div class="mb-3">
-<%= @event.max_persons %>人
+  <%= @event.max_persons %>人
 </div>
 <h4>開始日</h4>
 <div class="mb-3">
-<%= @event.start_date %>
+  <%= @event.start_date %>
 </div>
 <h4>開始時間</h4>
 <div class="mb-3">
-<%= @event.start_time.to_s(:shorttime) %>
+  <%= @event.start_time.to_s(:shorttime) %>
 </div>
 
 <% if user_signed_in? %>
