@@ -26,6 +26,11 @@ Metrics/BlockLength:
     - spec/**/*
     - config/**/*
 
+# メソッド内の行数（コメントは数えない)
+MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 15
+
 #snake_caseの除外
 #**/Gemfileだとredisだけ除外できなかったからフルパス指定
 FileName:

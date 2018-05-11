@@ -282,8 +282,9 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
   config.secret_key = ENV['SECRET_KEY']
   config.omniauth :facebook,
-                  ENV['FACEBOOK_APP_ID'],
-                  ENV['FACEBOOK_APP_SECRET'],
-                  scope: 'email',
-                  info_fields: 'email'
+                  Rails.application.credentials.FACEBOOK_APP_ID,
+                  Rails.application.credentials.FACEBOOK_APP_SECRET
+  config.omniauth :line,
+                  Rails.application.credentials.LINE_KEY,
+                  Rails.application.credentials.LINE_SECRET
 end

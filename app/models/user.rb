@@ -28,8 +28,8 @@
 class User < ApplicationRecord
   before_create :set_create_user_url
 
-  has_many :event, inverse_of: :user
-  has_many :joins, inverse_of: :user
+  has_many :event, inverse_of: :user, dependent: :destroy
+  has_many :joins, inverse_of: :user, dependent: :destroy
   attr_accessor :current_password
 
   validates :name, presence: true
@@ -38,20 +38,25 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable,
-         :omniauthable, omniauth_providers: [:facebook]
+         :omniauthable, omniauth_providers: %i[facebook line]
 
+  # omniauth for line
+  # has_many :social_profiles, dependent: :destroy
+  def social_profile(provider)
+    social_profiles.select { |sp| sp.provider == provider.to_s }.first
+  end
+
+  # omniauth for facebook
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.name = auth.info.name # assuming the user model has a name
-      # user.image = auth.info.image assuming the user model has an image
-      # If you are using confirmable and the provider(s) you use validate emails,
-      # uncomment the line below to skip the confirmation emails.
-      # user.skip_confirmation!
+      user.name = auth.info.name
+      user.confirmed_at = Time.now
     end
   end
 
+  # update no password
   def update_without_current_password(params, *options)
     params.delete(:current_password)
     if params[:password].blank? && params[:password_confirmation].blank?
@@ -63,6 +68,7 @@ class User < ApplicationRecord
     result
   end
 
+  # user's random url
   def to_param
     user_url
   end

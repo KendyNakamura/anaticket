@@ -62,4 +62,5 @@ Rails.application.configure do
     host: 'localhost',
     port: 3100
   }
+  config.web_console.whitelisted_ips = '0.0.0.0/0'
 end
