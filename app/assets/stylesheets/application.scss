@@ -6,6 +6,9 @@
 .sm {
   display: none;
 }
+.event-width {
+  width: 25%;
+}
 
 // jquery用
 .hide {
@@ -18,5 +21,8 @@
   }
   .sm {
     display: inline;
+  }
+  .event-width {
+    width: 50%;
   }
 }

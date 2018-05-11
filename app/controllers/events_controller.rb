@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, only: %i[new show create confirm finish]
+  before_action :event_new, only: %i[create confirm]
 
   def new
     @event = Event.new
@@ -32,16 +33,15 @@ class EventsController < ApplicationController
   end
 
   def confirm
-    @event = Event.new(event_params)
     render :new if @event.invalid?
   end
 
   def create
-    @event = Event.new(event_params)
     @event.user_id = current_user.id
     if params[:back]
       render :new
     elsif @event.save
+      NotificationMailer.send_confirm_to_user(@event).deliver
       flash[:notice] = 'イベントを作成しました！'
       redirect_to "/events/finish/#{@event.event_url}"
     else
@@ -69,5 +69,9 @@ class EventsController < ApplicationController
 
   def session_params
     params.require(:event).permit(:value)
+  end
+
+  def event_new
+    @event = Event.new(event_params)
   end
 end

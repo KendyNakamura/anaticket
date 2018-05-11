@@ -6,7 +6,6 @@ class HomeController < ApplicationController
   def show
     @user = User.find_by(user_url: params[:user_url])
     @events = Event.order('created_at desc')
-    @joins = Join.where(event_id: @event.id)
   end
 
   def update
