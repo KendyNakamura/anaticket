@@ -43,6 +43,7 @@ gem 'tether-rails'
 
 gem 'devise'
 gem 'omniauth-facebook'
+gem 'omniauth-line'
 gem 'rails_12factor', group: :production
 gem 'resources_id_replace'
 
