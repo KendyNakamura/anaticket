@@ -69,8 +69,6 @@ class User < ApplicationRecord
     result
   end
 
-  Payjp::api_key = 'sk_test_c20011eceeec8b5bb590fb98'
-
   # user's random url
   def to_param
     user_url

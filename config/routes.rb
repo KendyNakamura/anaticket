@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'home/:user_url' => 'home#show'
   get 'home/:user_url/card' => 'home#card'
   post 'home/:user_url/create_card' => 'home#create_card'
+  post 'home/:user_url/update_card' => 'home#update_card'
   post 'home/:user_url/delete_card' => 'home#delete_card'
   post 'home/:user_url/update' => 'home#update'
   # event

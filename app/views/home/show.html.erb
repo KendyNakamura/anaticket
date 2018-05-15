@@ -12,4 +12,5 @@
   <%= @user.name %>
 <% end %>
 
+<h4>イベント一覧</h4>
 <p><%= render partial: "events/myevent", collection: @events, locals: {user_id: @user.id} %></p>

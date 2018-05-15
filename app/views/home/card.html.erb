@@ -9,15 +9,34 @@
     <input type="submit" value="削除" class="btn btn-danger">
   <% end %>
 <% else %>
-  <%= form_tag(action: :create_card, method: :post) do %>
-    <script
-    type="text/javascript"
-    src="https://checkout.pay.jp/"
-    class="payjp-button"
-    data-key="pk_test_eabecd6c8c17c2fe30c660d7"
-    data-token-name="token"
-    data-text="カード情報を登録する"
-    data-submit-text="カード情報を登録する"
-    ></script>
+  <% if @user.card_token.present? %>
+    <%= form_tag(action: :create_card, method: :post) do %>
+      <script
+      type="text/javascript"
+      src="https://checkout.pay.jp/"
+      class="payjp-button"
+      data-key="pk_test_eabecd6c8c17c2fe30c660d7"
+      data-token-name="token"
+      data-text="カード情報を登録する"
+      data-submit-text="カード情報を登録する"
+      ></script>
+    <% end %>
+  <% else %>
+    <%= form_tag(action: :update_card, method: :post) do %>
+      <script
+      type="text/javascript"
+      src="https://checkout.pay.jp/"
+      class="payjp-button"
+      data-key="pk_test_eabecd6c8c17c2fe30c660d7"
+      data-token-name="token"
+      data-text="カード情報を登録する"
+      data-submit-text="カード情報を登録する"
+      ></script>
+    <% end %>
   <% end %>
 <% end %>
+
+テストカード番号<br />
+テスト番号：4242424242424242<br />
+有効期限：未来ならいつでも<br />
+名前：何でも<br />

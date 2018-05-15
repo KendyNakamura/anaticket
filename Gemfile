@@ -32,9 +32,9 @@ gem 'devise'
 gem 'omniauth-facebook'
 gem 'omniauth-line'
 
+gem 'payjp'
 gem 'rails_12factor', group: :production
 gem 'resources_id_replace'
-gem 'payjp'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
