@@ -5,45 +5,33 @@ ruby '2.4.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
-# Use mysql as the database for Active Record
+# server
 gem 'mysql2', '>= 0.4.4', '< 0.6.0', group: :development
 gem 'pg', group: :production
-# Use Puma as the app server
 gem 'puma', '~> 3.11'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', platforms: :ruby
-
-# Use CoffeeScript for .coffee assets and views
-# gem 'coffee-rails', '~> 4.2'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
-# Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
-gem 'gon'
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
-
+# view
 gem 'bootstrap'
+gem 'bootstrap-social-rails'
+gem 'font-awesome-rails'
+gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
 gem 'popper_js'
+gem 'sass-rails', '~> 5.0'
 gem 'tether-rails'
+gem 'uglifier', '>= 1.3.0'
+# Use Redis adapter to run Action Cable in production
+# gem 'redis', '~> 4.0'
 
+gem 'bcrypt', '~> 3.1.7'
+gem 'bootsnap', '>= 1.1.0', require: false
+gem 'gon'
+
+# login
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'omniauth-line'
+
 gem 'rails_12factor', group: :production
 gem 'resources_id_replace'
 

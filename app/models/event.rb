@@ -21,6 +21,8 @@ class Event < ApplicationRecord
 
   belongs_to :user, inverse_of: :event, optional: true
   has_many :joins, inverse_of: :event
+  accepts_nested_attributes_for :joins
+
   validates :title, presence: true
   validates :max_persons, presence: true
   validates :event_url, uniqueness: true

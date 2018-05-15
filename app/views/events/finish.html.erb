@@ -25,5 +25,9 @@
   <p class="mb-3">限定公開のため閲覧にパスワードが必要です</p>
 <% end %>
 
+<p class="mb-3"><%= @event.user_id %></p>
+
+<%= @event.id %>
+
 <p><%= link_to 'トップページへ', root_path %></p>
 <p><%= link_to 'マイページへ', "/home/#{@event.user.user_url}" %></p>

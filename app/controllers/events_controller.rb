@@ -4,6 +4,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @event.joins.build
   end
 
   def show
@@ -64,7 +65,8 @@ class EventsController < ApplicationController
                                   :start_date,
                                   :start_time,
                                   :password,
-                                  :password_confirmation)
+                                  :password_confirmation,
+                                  joins_attributes: %i[user_id event_id])
   end
 
   def session_params

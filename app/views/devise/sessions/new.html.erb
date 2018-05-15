@@ -25,4 +25,15 @@
 <%= link_to user_facebook_omniauth_authorize_path do %>
   <div class="btn-facebook"></div>
 <% end %>
+
 <%= render "devise/shared/links" %>
+
+<%= link_to " facebookでログイン", user_facebook_omniauth_authorize_path, class: "fa fa-facebook btn btn-facebook mb-3" %><br />
+<%= link_to (user_line_omniauth_authorize_path) do %>
+  <div class=" btn sns_btn_inner">
+    <span class="line-img">
+      <%= image_tag( "/line_64.png", :size => "22x22" ) %>
+    </span>
+    <span class="sns_msg">LINEでログイン</span>
+  </div>
+<% end %>

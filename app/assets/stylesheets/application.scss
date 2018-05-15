@@ -1,4 +1,6 @@
 @import "bootstrap";
+@import "font-awesome";
+@import "bootstrap-social";
 
 .lg {
   display: inline;
@@ -8,6 +10,30 @@
 }
 .event-width {
   width: 25%;
+}
+
+// LINEログインボタン
+.line-img{
+  margin-right: 4px;
+}
+
+.sns_msg {
+  font-size: 18px;
+}
+
+.line-img img{
+  // width: 17px;
+  // height: 17px;
+  margin: 1px 0px 3px -3px;
+}
+
+.sns_btn_inner{
+  font-size: 1.2rem; 
+  background-color: #00C300;
+  color: #fff;
+  letter-spacing: 1px;
+  line-height: 18px;
+  height: 30px;
 }
 
 // jquery用

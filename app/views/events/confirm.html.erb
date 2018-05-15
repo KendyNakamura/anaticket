@@ -28,6 +28,10 @@
       <p class="mb-3">一般公開にする</p>
     <% end %>
     <%= f.hidden_field :check %>
+
+    <%= f.fields_for :joins do |b| %>
+      <%= b.text_field :user_id, value: "#{current_user.id}" %>
+    <% end %>
     <span class="input-group-btn align-bottom">
       <%= f.submit class: "btn btn-primary mt-4 mr-3", value: "登録する", data: { confirm: "登録しますか？" } %>
       <%= f.submit '修正する', name: 'back', class: "btn btn-danger mt-4", value: "修正する" %>

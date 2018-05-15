@@ -28,6 +28,9 @@
       <p class="pt-3"><%= f.check_box :check, id: "check", checked_value: "1", unchecked_value: "0" %>限定公開にする</p>
       <%= f.password_field :password, id: "password", placeholder: "パスワード(4桁以上)" %>
       <%= f.password_field :password_confirmation, id: "passwordConfirmation", placeholder: "確認パスワード" %>
+      <%= f.fields_for :joins do |b| %>
+        <%= b.text_field :user_id, value: "#{current_user.id}" %>
+      <% end %>
       <span class="input-group-btn align-bottom">
         <%= f.submit class: "btn btn-primary mt-4 float-right", value: "確認画面へ" %>
       </span>
