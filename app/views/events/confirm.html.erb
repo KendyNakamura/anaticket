@@ -16,7 +16,7 @@
     <%= f.hidden_field :max_persons %>
     <h5 class="pt-3"><%= f.label :開始日 %></h5>
     <p class="mb-3"><%= @event.start_date %></p>
-    <%= f.hidden_field :start_date%>
+    <%= f.hidden_field :start_date %>
     <h5 class="pt-3"><%= f.label :開始時間 %></h5>
     <p class="mb-3"><%= @event.start_time.to_s(:shorttime) %></p>
     <%= f.hidden_field :start_time %><br />
@@ -29,8 +29,15 @@
     <% end %>
     <%= f.hidden_field :check %>
 
-    <%= f.fields_for :joins do |b| %>
-      <%= b.text_field :user_id, value: "#{current_user.id}" %>
+    <%= f.fields_for :items do |b| %>
+      <h5 class="pt-3"><%= f.label :商品名 %></h5>
+      <p class="mb-3"><%= b.text_field :name, readonly: true %></p>
+      <h5 class="pt-3"><%= f.label :詳細 %></h5>
+      <p class="mb-3"><%= b.text_field :content, readonly: true %></p>
+      <h5 class="pt-3"><%= f.label :価格 %></h5>
+      <p class="mb-3"><%= b.number_field :price, readonly: true %>円</p>
+      <h5 class="pt-3"><%= f.label :在庫 %></h5>
+      <p class="mb-3"><%= b.number_field :count, readonly: true %></p>
     <% end %>
     <span class="input-group-btn align-bottom">
       <%= f.submit class: "btn btn-primary mt-4 mr-3", value: "登録する", data: { confirm: "登録しますか？" } %>

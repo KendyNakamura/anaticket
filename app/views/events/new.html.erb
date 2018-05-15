@@ -28,8 +28,15 @@
       <p class="pt-3"><%= f.check_box :check, id: "check", checked_value: "1", unchecked_value: "0" %>限定公開にする</p>
       <%= f.password_field :password, id: "password", placeholder: "パスワード(4桁以上)" %>
       <%= f.password_field :password_confirmation, id: "passwordConfirmation", placeholder: "確認パスワード" %>
-      <%= f.fields_for :joins do |b| %>
-        <%= b.text_field :user_id, value: "#{current_user.id}" %>
+      <%= f.fields_for :items do |b| %>
+        <h5 class="pt-3"><%= f.label :商品名 %></h5>
+        <%= b.text_field :name, class: "form-control", value: "チケット" %>
+        <h5 class="pt-3"><%= f.label :価格 %>(100円〜9999円)</h5>
+        <%= b.number_field :price, class: "form-control", in: 100...10000, value: "3000" %>
+        <h5 class="pt-3"><%= f.label :在庫 %>(1個〜100個)</h5>
+        <%= b.number_field :count, class: "form-control", in: 1...100, value: "10" %>
+        <h5 class="pt-3"><%= f.label :詳細 %></h5>
+        <%= b.text_area :content, class: "form-control", placeholder: "商品の内容を記載git " %>
       <% end %>
       <span class="input-group-btn align-bottom">
         <%= f.submit class: "btn btn-primary mt-4 float-right", value: "確認画面へ" %>

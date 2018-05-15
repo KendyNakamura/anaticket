@@ -1,14 +1,14 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, only: %i[new show create confirm finish]
   before_action :event_new, only: %i[create confirm]
+  before_action :event_find, only: %i[show password authenticate finish]
 
   def new
     @event = Event.new
-    @event.joins.build
+    @event.items.build
   end
 
   def show
-    @event = Event.find_by(event_url: params[:event_url])
     @join = Join.new
     @joins = Join.where(event_id: @event.id)
     return unless @event.check == '1' \
@@ -17,12 +17,9 @@ class EventsController < ApplicationController
     render :password
   end
 
-  def password
-    @event = Event.find_by(event_url: params[:event_url])
-  end
+  def password; end
 
   def authenticate
-    @event = Event.find_by(event_url: params[:event_url])
     if @event.authenticate(session_params[:value])
       flash[:notice] = '認証しました'
       session[:event_id] = @event.id
@@ -50,9 +47,7 @@ class EventsController < ApplicationController
     end
   end
 
-  def finish
-    @event = Event.find_by(event_url: params[:event_url])
-  end
+  def finish; end
 
   protected
 
@@ -66,7 +61,7 @@ class EventsController < ApplicationController
                                   :start_time,
                                   :password,
                                   :password_confirmation,
-                                  joins_attributes: %i[user_id event_id])
+                                  items_attributes: %i[name content price count event_id])
   end
 
   def session_params
@@ -75,5 +70,9 @@ class EventsController < ApplicationController
 
   def event_new
     @event = Event.new(event_params)
+  end
+
+  def event_find
+    @event = Event.find_by(event_url: params[:event_url])
   end
 end

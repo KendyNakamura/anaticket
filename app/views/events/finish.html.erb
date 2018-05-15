@@ -27,7 +27,13 @@
 
 <p class="mb-3"><%= @event.user_id %></p>
 
-<%= @event.id %>
+<p class="mb-3"><%= @item.name %></p>
+
+<p class="mb-3"><%= @item.content %></p>
+
+<p class="mb-3"><%= @item.price %></p>
+
+<p class="mb-3"><%= @item.count %></p>
 
 <p><%= link_to 'トップページへ', root_path %></p>
 <p><%= link_to 'マイページへ', "/home/#{@event.user.user_url}" %></p>

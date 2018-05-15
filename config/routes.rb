@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   post 'events/authenticate/:event_url' => 'events#authenticate'
   # join
   resource :joins, only: %i[create destroy]
+  # item
+  resource :items, only: %i[create destroy]
   # devise
   devise_scope :user do
     get 'users/sign_out' => 'devise/sessions#destroy'
