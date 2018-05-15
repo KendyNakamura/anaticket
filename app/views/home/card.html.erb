@@ -1,0 +1,23 @@
+<% if @customer.default_card.present? %>
+  <%= @card.brand %>
+  xxxx-xxxx-xxxx-<%= @card.last4 %>
+  <%= @card.name %>
+  <p class="mt-5">有効期限</p>
+  <%= @card.exp_month %>/
+  <%= @card.exp_year %>
+  <%= form_tag(action: :delete_card, method: :post) do %>
+    <input type="submit" value="削除" class="btn btn-danger">
+  <% end %>
+<% else %>
+  <%= form_tag(action: :create_card, method: :post) do %>
+    <script
+    type="text/javascript"
+    src="https://checkout.pay.jp/"
+    class="payjp-button"
+    data-key="pk_test_eabecd6c8c17c2fe30c660d7"
+    data-token-name="token"
+    data-text="カード情報を登録する"
+    data-submit-text="カード情報を登録する"
+    ></script>
+  <% end %>
+<% end %>

@@ -24,6 +24,7 @@
 #  name                   :string(255)
 #  user_url               :string(255)      not null
 #
+require 'payjp'
 
 class User < ApplicationRecord
   before_create :set_create_user_url
@@ -67,6 +68,8 @@ class User < ApplicationRecord
     clean_up_passwords
     result
   end
+
+  Payjp::api_key = 'sk_test_c20011eceeec8b5bb590fb98'
 
   # user's random url
   def to_param

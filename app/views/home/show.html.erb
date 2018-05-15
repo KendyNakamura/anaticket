@@ -6,6 +6,7 @@
       <%= f.submit class: "btn btn-primary my-4", value: "保存する" %>
     </span>
   <% end %>
+  <%= link_to "クレジットカード情報を変更する", "/home/#{@user.user_url}/card", class: "float-right" %>
   <%= link_to "パスワードを変更する", edit_user_registration_path, class: "float-right" %>
 <% else %>
   <%= @user.name %>
