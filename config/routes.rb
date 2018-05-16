@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'events/password/:event_url' => 'events#password'
   post 'events/authenticate/:event_url' => 'events#authenticate'
   post 'events/:event_url/pay' => 'events#pay'
+  post 'events/:event_url/purchase' => 'events#purchase'
   # join
   resource :joins, only: %i[create destroy]
   # item

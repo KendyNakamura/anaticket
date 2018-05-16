@@ -7,6 +7,7 @@
       <%= f.text_area :content, class: "form-control mb-3", style: "height:200px;" %>
       <h5><%= f.label :募集人数 %></h5>
       <%= f.number_field :max_persons, class: "form-control", min: 0, max: 999, placeholder: "人数無制限の場合、0にしてください" %>
+      <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
       <h5 class="pt-3"><%= f.label :開始日 %></h5>
       <%= raw sprintf(
           f.date_select(

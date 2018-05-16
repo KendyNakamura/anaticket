@@ -3,7 +3,7 @@ require 'payjp'
 class EventsController < ApplicationController
   before_action :authenticate_user!, only: %i[new show create confirm finish]
   before_action :event_new, only: %i[create confirm]
-  before_action :event_find, only: %i[show password authenticate finish pay]
+  before_action :event_find, only: %i[show password authenticate finish purchase pay]
   before_action :card_confirm, only: %i[pay]
 
   def new
@@ -14,26 +14,34 @@ class EventsController < ApplicationController
   def show
     @join = Join.new
     @joins = Join.where(event_id: @event.id)
-    @item = Item.find_by(event_id: @event.id)
+    @purchase = Purchase.new
+    @purchases = Purchase.where(event_id: @event.id)
     return unless @event.check == '1' \
     && session[:event_id] != @event.id \
     && @event.user.id != current_user.id
     render :password
   end
 
+  def purchase
+    @purchase = Purchase.new(purchase_params)
+    return unless @purchase.save
+    flash[:notice] = '購入が完了しました。決済はまだ行われません。'
+    redirect_to "/events/#{@event.event_url}"
+  end
+
   def pay
     Payjp.api_key = 'sk_test_c20011eceeec8b5bb590fb98'
-    @item = Item.find_by(event_id: @event.id)
-    @items = Item.where(event_id: @event.id)
-    @items.each do |item|
+    @purchases = Purchase.where(event_id: @event.id)
+    @purchases.each do |purchase|
       Payjp::Charge.create(
-        amount: item.price,
-        customer: current_user.card_token,
+        amount: purchase.item.price,
+        customer: purchase.user.card_token,
         currency: 'jpy'
       )
+      purchase.update(process: '1')
     end
-    flash[:notice] = '購入が完了しました。'
-    redirect_to root_path
+    flash[:notice] = '決済が完了しました。'
+    redirect_to "/events/#{@event.event_url}"
   end
 
   def password; end
@@ -54,7 +62,6 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event.user_id = current_user.id
     if params[:back]
       render :new
     elsif @event.save
@@ -83,8 +90,8 @@ class EventsController < ApplicationController
                                   items_attributes: %i[name content price count event_id])
   end
 
-  def session_params
-    params.require(:event).permit(:value)
+  def purchase_params
+    params.require(:purchase).permit(:user_id, :event_id, :item_id, :process)
   end
 
   def card_confirm

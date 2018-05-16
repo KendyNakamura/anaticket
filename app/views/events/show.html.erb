@@ -49,10 +49,29 @@
 
 <% if @item.present?%>
   <p class="border-top py-2"><%= @item.name %><%= @item.price %>円</p>
-  <%= link_to "発券する", "/events/#{@event.event_url}/pay", method: :post, class: "btn btn-primary mb-3", data: { confirm: "発券しますか？" } %>
+  <%= form_for :purchase, url: {action: 'purchase'} do |f| %>
+    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+    <%= f.hidden_field :item_id, value: "#{@item.id}" %>
+    <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+    <%= f.hidden_field :process, value: "0" %>
+    <%= f.submit value: "発券する", class: "btn btn-primary mb-3", data: { confirm: "購入しますか？" } %>
+  <% end %>
 <% end %>
 
 <h5 class="my-4">参加者</h5>
 <% @joins.each do |join| %>
   <p class="border-top py-2"><%= link_to "#{join.user.name}", "/home/#{join.user.user_url}" %></p>
+<% end %>
+
+<%= link_to "決済する", "/events/#{@event.event_url}/pay", method: :post, class: "btn btn-primary mb-3", data: { confirm: "決済しますか？" } %>
+<h5 class="my-4">購入者</h5>
+<% @purchases.each do |purchase| %>
+  <p class="border-top py-2">
+    <%= link_to "#{purchase.user.name}", "/home/#{purchase.user.user_url}" %>
+    <%= purchase.item.name %>
+    <%= purchase.item.price %>円
+    <% if purchase.process == "1" %>
+      <span class="text-success">済み</span>
+    <% end %>
+  </p>
 <% end %>
