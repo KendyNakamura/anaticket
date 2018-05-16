@@ -34,11 +34,18 @@ $(function() {
   });
 });
 
-$(function(){
-  $('#passConfirm').click(function(){
-    var password = gon.password
-    if ( password ) {
-      $('#private').removeClass('d-none');
+// // 有料、無料のラジオボタン押下時
+$(function() {
+  $('#ticket').addClass("hide");
+
+  // $('#radio').click(function() {
+  $('[name="radio"]:radio').change( function() {
+    if ( $('#free').prop('checked')) {
+      $('#ticket').addClass("hide");
+      $('#persons').removeClass("hide");
+    } else if ( $('#toll').prop('checked')){
+      $('#ticket').removeClass("hide");
+      $('#persons').addClass("hide");
     }
   });
 });
