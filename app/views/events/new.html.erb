@@ -36,7 +36,7 @@
         <h5 class="pt-3"><%= f.label :在庫 %>(1個〜100個)</h5>
         <%= b.number_field :count, class: "form-control", in: 1...100, value: "10" %>
         <h5 class="pt-3"><%= f.label :詳細 %></h5>
-        <%= b.text_area :content, class: "form-control", placeholder: "商品の内容を記載git " %>
+        <%= b.text_area :content, class: "form-control", placeholder: "商品の内容を記載" %>
       <% end %>
       <span class="input-group-btn align-bottom">
         <%= f.submit class: "btn btn-primary mt-4 float-right", value: "確認画面へ" %>

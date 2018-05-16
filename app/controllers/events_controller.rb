@@ -1,7 +1,10 @@
+require 'payjp'
+
 class EventsController < ApplicationController
   before_action :authenticate_user!, only: %i[new show create confirm finish]
   before_action :event_new, only: %i[create confirm]
-  before_action :event_find, only: %i[show password authenticate finish]
+  before_action :event_find, only: %i[show password authenticate finish pay]
+  before_action :card_confirm, only: %i[pay]
 
   def new
     @event = Event.new
@@ -11,10 +14,26 @@ class EventsController < ApplicationController
   def show
     @join = Join.new
     @joins = Join.where(event_id: @event.id)
+    @item = Item.find_by(event_id: @event.id)
     return unless @event.check == '1' \
     && session[:event_id] != @event.id \
     && @event.user.id != current_user.id
     render :password
+  end
+
+  def pay
+    Payjp.api_key = 'sk_test_c20011eceeec8b5bb590fb98'
+    @item = Item.find_by(event_id: @event.id)
+    @items = Item.where(event_id: @event.id)
+    @items.each do |item|
+      Payjp::Charge.create(
+        amount: item.price,
+        customer: current_user.card_token,
+        currency: 'jpy'
+      )
+    end
+    flash[:notice] = '購入が完了しました。'
+    redirect_to root_path
   end
 
   def password; end
@@ -68,11 +87,17 @@ class EventsController < ApplicationController
     params.require(:event).permit(:value)
   end
 
+  def card_confirm
+    flash[:notice] = 'カード情報を登録してください'
+    redirect_to "/home/#{current_user.user_url}/card" if current_user.card_token.nil?
+  end
+
   def event_new
     @event = Event.new(event_params)
   end
 
   def event_find
     @event = Event.find_by(event_url: params[:event_url])
+    @item = Item.find_by(event_id: @event.id)
   end
 end

@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   before_action :user_find, only: %i[show card create_card update_card delete_card update]
   before_action :pay_api, only: %i[card create_card update_card delete_card]
   before_action :customer_params, only: %i[card create_card update_card delete_card]
+  protect_from_forgery except: [:create_card]
   def index
     @events = Event.order('created_at desc')
   end
@@ -13,11 +14,12 @@ class HomeController < ApplicationController
   end
 
   def card
+    return if current_user.card_token.nil?
     return unless @customer.default_card.present?
     @card = @customer.cards.retrieve(@customer.default_card)
   end
 
-  def create_card
+  def update_card
     if @customer.cards.create(card: params['token'])
       flash[:notice] = '保存しました。'
       redirect_to "/home/#{@user.user_url}/card"
@@ -27,7 +29,7 @@ class HomeController < ApplicationController
     end
   end
 
-  def update_card
+  def create_card
     customer = Payjp::Customer.create(card: params['token'], email: current_user.email)
     @user.card_token = customer.id
     if @user.save
@@ -75,6 +77,6 @@ class HomeController < ApplicationController
   end
 
   def customer_params
-    @customer = Payjp::Customer.retrieve(@user.card_token)
+    @customer = Payjp::Customer.retrieve(@user.card_token) unless current_user.card_token.nil?
   end
 end

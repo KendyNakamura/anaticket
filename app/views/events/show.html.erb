@@ -31,7 +31,7 @@
       <%= form_with model: @join, url: joins_path, local: true do |f| %>
         <%= f.hidden_field :event_id, value: "#{@event.id}" %>
         <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-        <%= f.submit value: "参加する", class: "btn btn-primary mb-3", data: { confirm: "参加しますか？" } %>
+        <%= f.submit value: "参加予約する", class: "btn btn-primary mb-3", data: { confirm: "参加予約をしますか？" } %>
         <p>現在の参加人数<%= @joins.count %>人</p>
       <% end %>
     <% end %>
@@ -45,6 +45,11 @@
   <% end %>
 <% else %>
    参加するには<%= link_to "ログイン", new_user_session_path %>が必要です。
+<% end %>
+
+<% if @item.present?%>
+  <p class="border-top py-2"><%= @item.name %><%= @item.price %>円</p>
+  <%= link_to "発券する", "/events/#{@event.event_url}/pay", method: :post, class: "btn btn-primary mb-3", data: { confirm: "発券しますか？" } %>
 <% end %>
 
 <h5 class="my-4">参加者</h5>
