@@ -83,8 +83,9 @@ class EventsController < ApplicationController
                                   :max_persons,
                                   :check,
                                   :user_id,
-                                  :start_date,
                                   :start_time,
+                                  :finish_time,
+                                  :free,
                                   :password,
                                   :password_confirmation,
                                   items_attributes: %i[name content price count event_id])

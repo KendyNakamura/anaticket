@@ -2,7 +2,7 @@
 <% if myevent.user.id == user_id %>
   <!-- 自分のページの場合、全てのイベントを表示 -->
   <% if myevent.user.id == current_user.id %>
-    <div class="border-top py-3 row pl-4">
+    <div class="border-bottom py-3 row pl-4">
       <div class="col-12 px-2">
         <h4><%= link_to "#{myevent.title}", "/events/#{myevent.event_url}", class: "w-100" %></h4>
         <% if myevent.check == "1" %>
@@ -11,12 +11,12 @@
       </div>
       <div class="col-12 px-3 py-3">
         <%= myevent.content %>
-      </div> 
+      </div>
     </div>
   <% else %>
     <!-- 他の人のページは制限なしイベントのみ表示 -->
     <% if myevent.check != "1" %>
-      <div class="border-top py-3 row pl-4">
+      <div class="border-bottom py-3 row pl-4">
         <div class="col-12 px-2">
           <h4><%= link_to "#{myevent.title}", "/events/#{myevent.event_url}", class: "w-100" %></h4>
         </div>

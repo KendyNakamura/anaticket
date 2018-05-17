@@ -36,15 +36,15 @@ $(function() {
 
 // // 有料、無料のラジオボタン押下時
 $(function() {
-  $('#ticket').addClass("hide");
+  $('.ticket').addClass("hide");
 
   // $('#radio').click(function() {
-  $('[name="radio"]:radio').change( function() {
-    if ( $('#free').prop('checked')) {
-      $('#ticket').addClass("hide");
+  $('.free-radio').click( function() {
+    if ( $('#event_free_0').prop('checked')) {
+      $('.ticket').addClass("hide");
       $('#persons').removeClass("hide");
-    } else if ( $('#toll').prop('checked')){
-      $('#ticket').removeClass("hide");
+    } else if ( $('#event_free_1').prop('checked')){
+      $('.ticket').removeClass("hide");
       $('#persons').addClass("hide");
     }
   });

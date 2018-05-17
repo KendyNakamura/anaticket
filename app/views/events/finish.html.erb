@@ -15,25 +15,21 @@
   <p class="mb-3"><%= @event.max_persons %></p>
 <% end %>
 
-<h5 class="pt-3">開始日</h5>
-<p class="mb-3"><%= @event.start_date %></p>
-
 <h5 class="pt-3">開始時間</h5>
-<p class="mb-3"><%= @event.start_time.to_s(:shorttime) %></p>
+<p class="mb-3"><%= @event.start_time %></p>
+<h5 class="pt-3">終了時間</h5>
+<p class="mb-3"><%= @event.finish_time %></p>
 
 <% if @event.check == "1" %>
   <p class="mb-3">限定公開のため閲覧にパスワードが必要です</p>
 <% end %>
 
-<p class="mb-3"><%= @event.user_id %></p>
-
-<p class="mb-3"><%= @item.name %></p>
-
-<p class="mb-3"><%= @item.content %></p>
-
-<p class="mb-3"><%= @item.price %></p>
-
-<p class="mb-3"><%= @item.count %></p>
+<% if @event.free == "1" %>
+  <p class="mb-3"><%= @item.name %></p>
+  <p class="mb-3"><%= @item.content %></p>
+  <p class="mb-3"><%= @item.price %>円</p>
+  <p class="mb-3">在庫　<%= @item.count %></p>
+<% end %>
 
 <p><%= link_to 'トップページへ', root_path %></p>
 <p><%= link_to 'マイページへ', "/home/#{@event.user.user_url}" %></p>

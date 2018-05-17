@@ -26,7 +26,7 @@ class Event < ApplicationRecord
   accepts_nested_attributes_for :items
 
   validates :title, presence: true
-  validates :max_persons, presence: true
+  validates :max_persons, presence: true, unless: :free?
   validates :event_url, uniqueness: true
   # only check on
   validates :password, confirmation: true, length: { within: 4..20 }, presence: true, if: :checked_on?
@@ -43,6 +43,10 @@ class Event < ApplicationRecord
 
   def checked_on?
     check == '1'
+  end
+
+  def free?
+    free == '1'
   end
 
   def to_param

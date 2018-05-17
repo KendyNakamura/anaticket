@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_16_051343) do
+ActiveRecord::Schema.define(version: 2018_05_16_105445) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -21,9 +21,11 @@ ActiveRecord::Schema.define(version: 2018_05_16_051343) do
     t.string "check"
     t.integer "user_id"
     t.integer "max_persons"
-    t.time "start_time"
+    t.datetime "start_time"
     t.date "start_date"
     t.string "event_url", null: false
+    t.datetime "finish_time"
+    t.string "free"
   end
 
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

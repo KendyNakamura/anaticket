@@ -11,6 +11,7 @@ class HomeController < ApplicationController
 
   def show
     @events = Event.order('created_at desc')
+    @purchases = Purchase.where(user_id: current_user.id).order('created_at desc')
   end
 
   def card

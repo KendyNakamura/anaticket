@@ -7,19 +7,14 @@
     <h4><%= f.label :内容 %></h4>
     <p class="mb-3"><%= @event.content%></p>
     <%= f.hidden_field :content %>
-    <h5><%= f.label :募集人数 %></h5>
-    <% if @event.max_persons == 0 %>
-      <p class="mb-3">制限なし</p>
-    <% else %>
-      <p class="mb-3"><%= @event.max_persons %></p>
-    <% end %>
     <%= f.hidden_field :max_persons %>
-    <h5 class="pt-3"><%= f.label :開始日 %></h5>
-    <p class="mb-3"><%= @event.start_date %></p>
-    <%= f.hidden_field :start_date %>
+    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
     <h5 class="pt-3"><%= f.label :開始時間 %></h5>
-    <p class="mb-3"><%= @event.start_time.to_s(:shorttime) %></p>
-    <%= f.hidden_field :start_time %><br />
+    <p class="mb-3"><%= @event.start_time %></p>
+    <%= f.hidden_field :start_time %>
+    <h5 class="pt-3"><%= f.label :終了時間 %></h5>
+    <p class="mb-3"><%= @event.finish_time %></p>
+    <%= f.hidden_field :finish_time %>
     <% if @event.check == "1" %>
       <p class="mb-3">限定公開にする</p>
       <%= f.hidden_field :password %>
@@ -28,16 +23,25 @@
       <p class="mb-3">一般公開にする</p>
     <% end %>
     <%= f.hidden_field :check %>
-
-    <%= f.fields_for :items do |b| %>
-      <h5 class="pt-3"><%= f.label :商品名 %></h5>
-      <p class="mb-3"><%= b.text_field :name, readonly: true %></p>
-      <h5 class="pt-3"><%= f.label :詳細 %></h5>
-      <p class="mb-3"><%= b.text_field :content, readonly: true %></p>
-      <h5 class="pt-3"><%= f.label :価格 %></h5>
-      <p class="mb-3"><%= b.number_field :price, readonly: true %>円</p>
-      <h5 class="pt-3"><%= f.label :在庫 %></h5>
-      <p class="mb-3"><%= b.number_field :count, readonly: true %></p>
+    <%= f.hidden_field :free %>
+    <% if @event.free == "1" %>
+      <%= f.fields_for :items do |b| %>
+        <h5 class="pt-3"><%= f.label :商品名 %></h5>
+        <p class="mb-3"><%= b.text_field :name, readonly: true %></p>
+        <h5 class="pt-3"><%= f.label :詳細 %></h5>
+        <p class="mb-3"><%= b.text_field :content, readonly: true %></p>
+        <h5 class="pt-3"><%= f.label :価格 %></h5>
+        <p class="mb-3"><%= b.number_field :price, readonly: true %>円</p>
+        <h5 class="pt-3"><%= f.label :在庫 %></h5>
+        <p class="mb-3"><%= b.number_field :count, readonly: true %></p>
+      <% end %>
+    <% else %>
+      <h5><%= f.label :募集人数 %></h5>
+      <% if @event.max_persons == 0 %>
+        <p class="mb-3">制限なし</p>
+      <% else %>
+        <p class="mb-3"><%= @event.max_persons %></p>
+      <% end %>
     <% end %>
     <span class="input-group-btn align-bottom">
       <%= f.submit class: "btn btn-primary mt-4 mr-3", value: "登録する", data: { confirm: "登録しますか？" } %>
