@@ -1,66 +1,12 @@
 require 'payjp'
 
 class HomeController < ApplicationController
-  before_action :user_find, only: %i[show card create_card update_card delete_card update]
-  before_action :pay_api, only: %i[card create_card update_card delete_card]
-  before_action :customer_params, only: %i[card create_card update_card delete_card]
-  protect_from_forgery except: [:create_card]
+  before_action :user_find, only: %i[show card create_card update_card update]
+  before_action :pay_api, only: %i[card create_card update_card]
+  before_action :customer_params, only: %i[card create_card update_card]
+  protect_from_forgery except: %i[create_card update_card]
   def index
     @events = Event.order('created_at desc')
-  end
-
-  def show
-    @events = Event.order('created_at desc')
-    @purchases = Purchase.where(user_id: current_user.id).order('created_at desc')
-  end
-
-  def card
-    return if current_user.card_token.nil?
-    return unless @customer.default_card.present?
-    @card = @customer.cards.retrieve(@customer.default_card)
-  end
-
-  def update_card
-    if @customer.cards.create(card: params['token'])
-      flash[:notice] = '保存しました。'
-      redirect_to "/home/#{@user.user_url}/card"
-    else
-      flash[:notice] = '保存に失敗しました。'
-      render :card
-    end
-  end
-
-  def create_card
-    customer = Payjp::Customer.create(card: params['token'], email: current_user.email)
-    @user.card_token = customer.id
-    if @user.save
-      flash[:notice] = '保存しました。'
-      redirect_to "/home/#{@user.user_url}/card"
-    else
-      flash[:notice] = '保存に失敗しました。'
-      render :card
-    end
-  end
-
-  def delete_card
-    @card = @customer.cards.retrieve(@customer.default_card)
-    @card.delete
-    if @user.save
-      flash[:notice] = '削除完了'
-      redirect_to "/home/#{@user.user_url}/card"
-    else
-      flash[:notice] = '削除失敗'
-      render :card
-    end
-  end
-
-  def update
-    if @user.update(user_params)
-      flash[:notice] = '保存しました。'
-    else
-      flash[:error] = '保存に失敗しました。'
-    end
-    redirect_to("/home/#{@user.user_url}")
   end
 
   protected

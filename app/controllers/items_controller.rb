@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_action :card_confirm, only: %i[create destroy]
   def create
     @item = Item.new(item_params)
     if @item.save
@@ -6,7 +7,7 @@ class ItemsController < ApplicationController
     else
       flash[:error] = '購入できませんでした。'
     end
-    redirect_to "/events/#{@item.event.event_url}"
+    redirect_to event_path
   end
 
   def destroy
@@ -16,7 +17,7 @@ class ItemsController < ApplicationController
     else
       flash[:error] = 'キャンセルに失敗しました。'
     end
-    redirect_to "/events/#{@item.event.event_url}"
+    redirect_to event_path
   end
 
   protected

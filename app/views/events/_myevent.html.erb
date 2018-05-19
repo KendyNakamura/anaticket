@@ -4,7 +4,7 @@
   <% if myevent.user.id == current_user.id %>
     <div class="border-bottom py-3 row pl-4">
       <div class="col-12 px-2">
-        <h4><%= link_to "#{myevent.title}", "/events/#{myevent.event_url}", class: "w-100" %></h4>
+        <h4><%= link_to "#{myevent.title}", event_path(myevent), class: "w-100" %></h4>
         <% if myevent.check == "1" %>
           制限付き
         <% end %>

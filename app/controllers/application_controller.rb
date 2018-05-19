@@ -2,6 +2,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def card_confirm
+    flash[:notice] = 'カード情報を登録してください'
+    redirect_to home_card_path if current_user.card_token.nil?
+  end
+
   protected
 
   def configure_permitted_parameters

@@ -34,10 +34,10 @@ gem 'omniauth-line'
 
 gem 'payjp'
 gem 'rails_12factor', group: :production
-gem 'resources_id_replace'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'rails-controller-testing'
 end
 
 group :development do

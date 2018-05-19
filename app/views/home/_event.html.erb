@@ -1,10 +1,12 @@
-<% if event.check != "1" %>
-  <div class="border-top py-3 row pl-4 event-width d-inline-block">
-    <div class="col-12 px-2">
-      <h5><%= link_to "#{event.title}", "/events/#{event.event_url}", class: "w-100" %></h5>
+<% if (Time.now - event.finish_time).negative? %>
+  <% if event.check != "1" %>
+    <div class="border-top py-3 row pl-4 event-width d-inline-block">
+      <div class="col-12 px-2">
+        <h5><%= link_to "#{event.title}", "/events/#{event.event_url}", class: "w-100" %></h5>
+      </div>
+      <div class="col-12 px-3 py-3 top-height">
+        <%= event.content %>
+      </div>
     </div>
-    <div class="col-12 px-3 py-3 top-height">
-      <%= event.content %>
-    </div>
-  </div>
+  <% end %>
 <% end %>

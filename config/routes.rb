@@ -1,24 +1,23 @@
 Rails.application.routes.draw do
+  # home
   root 'home#index'
-  get 'home/:user_url' => 'home#show'
-  get 'home/:user_url/card' => 'home#card'
-  post 'home/:user_url/create_card' => 'home#create_card'
-  post 'home/:user_url/update_card' => 'home#update_card'
-  post 'home/:user_url/delete_card' => 'home#delete_card'
-  post 'home/:user_url/update' => 'home#update'
+  namespace :home do
+    resources :profiles, only: %i[show update], param: :user_url
+    resources :cards, only: %i[show create update], param: :user_url
+  end
   # event
-  resource :events, only: %i[new create]
-  post 'events/confirm' => 'events#confirm'
-  get 'events/:event_url' => 'events#show'
-  get 'events/finish/:event_url' => 'events#finish'
-  get 'events/password/:event_url' => 'events#password'
-  post 'events/authenticate/:event_url' => 'events#authenticate'
-  post 'events/:event_url/pay' => 'events#pay'
-  post 'events/:event_url/purchase' => 'events#purchase'
-  # join
-  resource :joins, only: %i[create destroy]
-  # item
+  resources :events, param: :event_url, only: %i[show new create destroy]
+  resource :purchase, only: %i[create destroy]
+  resources :joins, only: %i[create destroy]
   resource :items, only: %i[create destroy]
+
+  namespace :events do
+    resource :pay, only: %i[create]
+    resources :confirms, only: %i[show create], param: :event_url
+    resources :finish, only: %i[show create], param: :event_url
+    resource :password, only: %i[show create]
+  end
+
   # devise
   devise_scope :user do
     get 'users/sign_out' => 'devise/sessions#destroy'
