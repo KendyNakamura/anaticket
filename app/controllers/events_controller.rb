@@ -40,6 +40,10 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
   end
 
+  def payjp_api
+    Payjp.api_key = 'sk_test_c20011eceeec8b5bb590fb98'
+  end
+
   def event_find
     @event = Event.find_by(event_url: params[:event_url])
     @item = Item.find_by(event_id: @event.id)
