@@ -177,6 +177,8 @@ GEM
       childprocess (~> 0.6, >= 0.6.3)
       iniparse (~> 1.4)
     parallel (1.12.1)
+    paranoia (2.4.1)
+      activerecord (>= 4.0, < 5.3)
     parser (2.5.1.0)
       ast (~> 2.4.0)
     payjp (0.0.6)
@@ -347,6 +349,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-line
   overcommit
+  paranoia
   payjp
   pg
   popper_js

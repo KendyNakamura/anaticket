@@ -31,6 +31,7 @@ gem 'gon'
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'omniauth-line'
+gem 'paranoia'
 
 gem 'payjp'
 gem 'rails_12factor', group: :production

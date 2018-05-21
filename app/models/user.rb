@@ -23,10 +23,16 @@
 #  uid                    :string(255)
 #  name                   :string(255)
 #  user_url               :string(255)      not null
+#  card_token             :string(255)
+#  point                  :integer
+#  deleted_at             :datetime
 #
+
 require 'payjp'
 
 class User < ApplicationRecord
+  # paranoia soft_delete
+  acts_as_paranoid
   before_create :set_create_user_url
 
   has_many :event, inverse_of: :user, dependent: :destroy
@@ -43,7 +49,6 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: %i[facebook line]
 
   # omniauth for line
-  # has_many :social_profiles, dependent: :destroy
   def social_profile(provider)
     social_profiles.select { |sp| sp.provider == provider.to_s }.first
   end

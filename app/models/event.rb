@@ -11,9 +11,11 @@
 #  check           :string(255)
 #  user_id         :integer
 #  max_persons     :integer
-#  start_time      :time
+#  start_time      :datetime
 #  start_date      :date
 #  event_url       :string(255)      not null
+#  finish_time     :datetime
+#  free            :string(255)
 #
 
 class Event < ApplicationRecord
