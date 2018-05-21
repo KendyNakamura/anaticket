@@ -49,3 +49,12 @@ $(function() {
     }
   });
 });
+
+// チケット価格の表示
+$(function() {
+  $('#profit').on('input', function(event) {
+    var value = $('#profit').val();
+    var profit = Math.ceil(value / 1.1);
+    $('#price').text(profit);
+  });
+});

@@ -74,15 +74,15 @@
     <h5 class="my-4">購入者</h5>
     <% @purchases.each do |purchase| %>
       <p class="border-top py-2">
-        <%= link_to "#{purchase.user.name}", home_profile_path %>
+        <%= link_to "#{purchase.user.name}", home_profile_path(purchase.user) %>
         <%= purchase.item.name %>
         <%= purchase.item.price %>円
       </p>
     <% end %>
   <% else %>
-    <!-- イベント終了時間まではキャンセルできる -->
-    <% if (Time.now - @event.finish_time).negative? %>
-      <% if @purchase.present? %>
+    <% if @purchase.present? %>
+      <!-- イベント終了時間まではキャンセルできる -->
+      <% if (Time.now - @event.finish_time).negative? %>
         <!-- 購入キャンセル -->
         <%= form_for :purchase, url: purchase_path, method: "delete" do |f| %>
           <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
@@ -95,15 +95,15 @@
             <%= f.submit value: "キャンセルする", class: "btn btn-danger mb-3", data: { confirm: "キャンセルしますか？" } %>
           <% end %>
         <% end %>
-      <% else %>
-        <!-- まだ購入していない場合は、発券ボタン表示 -->
-        <%= form_for :purchase, url: purchase_path, method: "post" do |f| %>
-          <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-          <%= f.hidden_field :item_id, value: "#{@item.id}" %>
-          <%= f.hidden_field :event_id, value: "#{@event.id}" %>
-          <%= f.hidden_field :process, value: "0" %>
-          <%= f.submit value: "発券する", class: "btn btn-primary mb-3", data: { confirm: "購入しますか？" } %>
-        <% end %>
+      <% end %>
+    <% else %>
+      <!-- まだ購入していない場合は、発券ボタン表示 -->
+      <%= form_for :purchase, url: purchase_path, method: "post" do |f| %>
+        <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+        <%= f.hidden_field :item_id, value: "#{@item.id}" %>
+        <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+        <%= f.hidden_field :process, value: "0" %>
+        <%= f.submit value: "発券する", class: "btn btn-primary mb-3", data: { confirm: "購入しますか？" } %>
       <% end %>
     <% end %>
   <% end %>
