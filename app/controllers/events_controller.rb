@@ -1,7 +1,8 @@
 require 'payjp'
 
 class EventsController < ApplicationController
-  before_action :authenticate_user!, only: %i[new show destroy]
+  before_action :authenticate_user!
+  before_action :card_confirm
   before_action :event_find, only: %i[show]
 
   def new

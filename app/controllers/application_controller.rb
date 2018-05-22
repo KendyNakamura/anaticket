@@ -4,7 +4,16 @@ class ApplicationController < ActionController::Base
 
   def card_confirm
     flash[:notice] = 'カード情報を登録してください'
-    redirect_to home_card_path if current_user.card_token.nil?
+    redirect_to home_card_path(current_user) if current_user.card_token.nil?
+  end
+
+  # override devise
+  def after_sign_in_path_for(resource)
+    home_card_path(current_user) if current_user.card_token.nil?
+  end
+
+  def after_sign_out_path_for(resource)
+    new_user_session_path
   end
 
   protected

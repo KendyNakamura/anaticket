@@ -83,6 +83,7 @@ class User < ApplicationRecord
   private
 
   def set_create_user_url
+    self.point = 0
     loop do
       self.user_url = SecureRandom.hex(10)
       break unless User.where(user_url: user_url).exists?
