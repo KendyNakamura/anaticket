@@ -26,6 +26,11 @@ Metrics/BlockLength:
     - spec/**/*
     - config/**/*
 
+# メソッド内の行数（コメントは数えない)
+MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 15
+
 #snake_caseの除外
 #**/Gemfileだとredisだけ除外できなかったからフルパス指定
 FileName:
@@ -37,3 +42,8 @@ FileName:
 Style/ClassAndModuleChildren:
   Description: 'Checks style of children classes and modules.'
   Enabled: false
+
+# ABCチェックの基準を緩くした
+Metrics/AbcSize:
+  Enabled: true
+  Max: 25

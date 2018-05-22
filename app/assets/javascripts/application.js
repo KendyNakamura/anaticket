@@ -33,3 +33,28 @@ $(function() {
     }
   });
 });
+
+// // 有料、無料のラジオボタン押下時
+$(function() {
+  $('.ticket').addClass("hide");
+
+  // $('#radio').click(function() {
+  $('.free-radio').click( function() {
+    if ( $('#event_free_0').prop('checked')) {
+      $('.ticket').addClass("hide");
+      $('#persons').removeClass("hide");
+    } else if ( $('#event_free_1').prop('checked')){
+      $('.ticket').removeClass("hide");
+      $('#persons').addClass("hide");
+    }
+  });
+});
+
+// チケット価格の表示
+$(function() {
+  $('#profit').on('input', function(event) {
+    var value = $('#profit').val();
+    var profit = Math.ceil(value / 1.1);
+    $('#price').text(profit);
+  });
+});

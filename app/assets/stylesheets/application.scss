@@ -1,4 +1,6 @@
 @import "bootstrap";
+@import "font-awesome";
+@import "bootstrap-social";
 
 .lg {
   display: inline;
@@ -6,10 +8,43 @@
 .sm {
   display: none;
 }
+.event-width {
+  width: 25%;
+}
+.event-height {
+  min-height: 100px;
+}
+// LINEログインボタン
+.line-img{
+  margin-right: 4px;
+}
+
+.sns_msg {
+  font-size: 18px;
+}
+
+.line-img img{
+  margin: 1px 0px 3px -3px;
+}
+
+.sns_btn_inner{
+  font-size: 1.2rem;
+  background-color: #00C300;
+  color: #fff;
+  letter-spacing: 1px;
+  line-height: 18px;
+  height: 30px;
+}
 
 // jquery用
 .hide {
   display:none
+}
+
+@media screen and (min-width: 600px){
+  .bank-width {
+    width: 50%;
+  }
 }
 
 @media screen and (max-width: 480px){
@@ -18,5 +53,8 @@
   }
   .sm {
     display: inline;
+  }
+  .event-width {
+    width: 100%;
   }
 }

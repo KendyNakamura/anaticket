@@ -1,21 +1,131 @@
-<%= @event.title %>
-<%= @event.content %>
-<%= @event.user.id %>
+<div class="mb-3">作成者：<%= @event.user.name %></div>
+<h4>タイトル</h4>
+<div class="mb-3"><%= @event.title %></div>
+<h4>内容</h4>
+<div class="mb-3"><%= @event.content %></div>
+<h4>開始時間</h4>
+<div class="mb-3"><%= @event.start_time %></div>
+<h4>終了時間</h4>
+<div class="mb-3"><%= @event.finish_time %></div>
 
-<% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
-  <%= form_with model: @join, url: joins_path, local: true do |f| %>
-    <%= f.hidden_field :event_id, value: "#{@event.id}" %>
-    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-    <%= f.submit value: "参加する", class: "btn btn-primary" %>
+<!-- 無料イベントのみ -->
+<% if @event.free == "0"%>
+  <h4>募集人数</h4>
+  <% if @event.max_persons == 0 %>
+    <p class="mb-3">制限なし</p>
+  <% else %>
+    <p class="mb-3"><%= @event.max_persons %></p>
   <% end %>
-<% else %>
-  <%= form_with model: @join, url: joins_path, method: "delete", local: true do |f| %>
-    <%= f.hidden_field :event_id, value: "#{@event.id}" %>
-    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-    <%= f.submit value: "キャンセル", class: "btn btn-danger" %>
+
+  <% if user_signed_in? %>
+    <!-- 参加していない場合 -->
+    <% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
+      <!-- 募集人数を超えている場合、満員ボタン表示 -->
+      <% if @joins.count == @event.max_persons && @event.max_persons != 0 %>
+        <div class="btn btn-secondary">満員です</div>
+      <% else %>
+        <%= form_with model: @join, url: joins_path, local: true do |f| %>
+          <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+          <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+          <%= f.submit value: "参加予約する", class: "btn btn-primary mb-3", data: { confirm: "参加予約をしますか？" } %>
+          <p>現在の参加人数<%= @joins.count %>人</p>
+        <% end %>
+      <% end %>
+    <% else %>
+      <!-- 参加している場合、キャンセルボタン表示 -->
+      <%= form_with model: @join, url: joins_path, method: "delete", local: true do |f| %>
+        <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+        <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+        <%= f.submit value: "キャンセル", class: "btn btn-danger mb-3", data: { confirm: "キャンセルしますか？" } %>
+        <p>現在の参加人数<%= @joins.count %>人</p>
+      <% end %>
+    <% end %>
+  <% else %>
+    <!-- ログインしていない場合 -->
+     参加するには<%= link_to "ログイン", new_user_session_path %>が必要です。
+  <% end %>
+
+  <h5 class="my-4">参加者</h5>
+  <% @joins.each do |join| %>
+    <p class="border-top py-2"><%= link_to "#{join.user.name}", "/home/#{join.user.user_url}" %></p>
   <% end %>
 <% end %>
 
-<% @joins.each do |join| %>
-  <p><%= join.user.id %></p>
+<!-- 有料イベントのみ -->
+<% if @item.present? %>
+  <h5 class="my-3">有料イベント</h5>
+  <p class="border-top py-2"><%= @item.name %>　<%= @item.price %>円</p>
+  <!-- 自分が作成したイベント -->
+  <% if @event.user.id == current_user.id %>
+    <!-- 購入者がいた場合、終了時間後に決済ボタンを出現させる -->
+    <% if @purchases.exists? %>
+      <% if (@event.finish_time - Time.now).negative? %>
+        <!-- 合計決済金額と作成者の獲得ポイント -->
+        <%sumPrice = 0%>
+        <% @purchases.each do |purchase|%>
+          <% sumPrice += purchase.item.price %>
+        <% end %>
+        <p>決済金額　<%= sumPrice %>円</p>
+        <p>獲得ポイント　<%= (sumPrice / 1.1).ceil %>円</p>
+        <!-- 決済が完了しているか -->
+        <% if @purchases.where(process: "0").exists? %>
+          <%= link_to "決済する", "/events/pay/#{@event.event_url}", method: :post, class: "btn btn-primary mb-3", data: { confirm: "決済しますか？" } %>
+        <% else %>
+          <div class="btn btn-secondary">決済完了</div>
+        <% end %>
+      <% else %>
+        <!-- イベント終了時間を過ぎるまでは決済できない -->
+        <p class="btn btn-secondary">イベント終了後に決済することができます。</p>
+      <% end %>
+    <% end %>
+    <h5 class="my-3">購入者</h5>
+    <% @purchases.each do |purchase| %>
+      <p class="border-top py-2">
+        <%= link_to "#{purchase.user.name}", home_profile_path(purchase.user) %>
+        <%= purchase.item.name %>
+        <%= purchase.item.price %>円
+      </p>
+    <% end %>
+  <% else %>
+    <% if @purchase.present? %>
+      <!-- イベント終了時間まではキャンセルできる -->
+      <% if (Time.now - @event.finish_time).negative? %>
+        <!-- 購入キャンセル -->
+        <%= form_for :purchase, url: purchase_path, method: "delete" do |f| %>
+          <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+          <%= f.hidden_field :item_id, value: "#{@item.id}" %>
+          <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+          <!-- 開始時間を過ぎるとキャンセル料がかかる -->
+          <% if (@event.start_time - Time.now).negative? %>
+            <%= f.submit value: "キャンセルする", class: "btn btn-danger mb-3", data: { confirm: "キャンセルしますか？キャンセル料が発生します。" } %>
+          <% else %>
+            <%= f.submit value: "キャンセルする", class: "btn btn-danger mb-3", data: { confirm: "キャンセルしますか？" } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <!-- カード有効期限の確認 -->
+      <% customer = Payjp::Customer.retrieve(current_user.card_token) %>
+      <% card = customer.cards.retrieve(customer.default_card) %>
+      <% card_year = card.exp_year %>
+      <% card_month = card.exp_month %>
+      <% event_year = @event.finish_time.year %>
+      <% event_month = @event.finish_time.month %>
+      <% if card_year < event_year %>
+        イベント終了時にカードの有効期限が切れます。カードを更新は<%= link_to "こちら", home_card_path(current_user)%>
+      <% elsif card_year == event_year && card_month <= event_month %>
+          イベント終了時にカードの有効期限が切れます。カードを更新は<%= link_to "こちら", home_card_path(current_user)%>
+      <% else %>
+        購入できます。
+        <!-- まだ購入していない場合は、発券ボタン表示 -->
+        <%= form_for :purchase, url: purchase_path, method: "post" do |f| %>
+          <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+          <%= f.hidden_field :item_id, value: "#{@item.id}" %>
+          <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+          <%= f.hidden_field :process, value: "0" %>
+          <%= f.submit value: "発券する", class: "btn btn-primary mb-3", data: { confirm: "購入しますか？" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

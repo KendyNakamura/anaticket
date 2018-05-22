@@ -7,9 +7,9 @@
           <%= link_to("#", id: "navbarDropdownMenuLink", class: "nav-link dropdown-toggle", "data-toggle": "dropdown", "data-flip": "true", "aria-haspopup": "false", "area-expanded": "false") do %>
           <% end %>
           <div class="dropdown-menu dropdown-memu-right btn-menu" area-labelledby="navbarDropdownMenuLink" style="position: absolute;right: 0;left: auto;">
-            <%= link_to "＋イベントを作成する", new_events_path, class: "dropdown-item" %>
-            <%= link_to "ログアウト", new_user_session_path, class: "dropdown-item" %>
-            <!-- マイページを作成する -->
+            <%= link_to "＋イベントを作成する", new_event_path, class: "dropdown-item" %>
+            <%= link_to "マイページ", home_profile_path(current_user), class: "dropdown-item" %>
+            <%= link_to "ログアウト", destroy_user_session_path, class: "dropdown-item" %>
           </div>
         </li>
       </ul>
@@ -17,9 +17,9 @@
     <div class="lg">
       <ul class="navbar-nav">
         <div class="float-right">
-          <%= link_to "＋イベントを作成する", new_events_path, class: "btn btn-warning" %>
-          <%= link_to "ログアウト", new_user_session_path, class: "btn btn-danger" %>
-          <!-- マイページを作成する -->
+          <%= link_to "＋イベントを作成する", new_event_path, class: "btn btn-warning" %>
+          <%= link_to "マイページ", home_profile_path(current_user), class: "btn btn-primary" %>
+          <%= link_to "ログアウト", destroy_user_session_path, class: "btn btn-danger" %>
         </div>
       </ul>
     </div>
@@ -30,7 +30,7 @@
           <%= link_to("#", id: "navbarDropdownMenuLink", class: "nav-link dropdown-toggle", "data-toggle": "dropdown", "data-flip": "true", "aria-haspopup": "false", "area-expanded": "false") do %>
           <% end %>
           <div class="dropdown-menu dropdown-memu-right btn-menu" area-labelledby="navbarDropdownMenuLink" style="position: absolute;right: 0;left: auto;">
-            <%= link_to "＋イベントを作成する", new_events_path, class: "dropdown-item" %>
+            <%= link_to "＋イベントを作成する", new_event_path, class: "dropdown-item" %>
             <%= link_to "ログイン", new_user_session_path, class: "dropdown-item" %>
             <%= link_to "新規登録", new_user_registration_path, class: "dropdown-item" %>
           </div>
@@ -40,7 +40,7 @@
     <div class="lg">
       <ul class="navbar-nav">
         <div class="float-right">
-          <%= link_to "＋イベントを作成する", new_events_path, class: "btn btn-warning" %>
+          <%= link_to "＋イベントを作成する", new_event_path, class: "btn btn-warning" %>
           <%= link_to "ログイン", new_user_session_path, class: "btn btn-info" %>
           <%= link_to "新規登録", new_user_registration_path, class: "btn btn-info" %>
         </div>

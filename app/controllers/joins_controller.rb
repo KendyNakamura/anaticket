@@ -1,22 +1,14 @@
 class JoinsController < ApplicationController
   def create
     @join = Join.new(join_params)
-    if @join.save
-      flash[:notice] = '参加しました！'
-    else
-      flash[:error] = '参加できませんでした。'
-    end
-    redirect_to "/events/#{@join.event.id}"
+    @join.save ? flash[:notice] = '参加しました！' : flash[:error] = '参加できませんでした。'
+    redirect_to event_path(@join.event)
   end
 
   def destroy
     @join = Join.find_by(join_params)
-    if @join.destroy
-      flash[:notice] = 'キャンセルしました。'
-    else
-      flash[:error] = 'キャンセルに失敗しました。'
-    end
-    redirect_to "/events/#{@join.event.id}"
+    @join.destroy ? flash[:notice] = 'キャンセルしました。' : flash[:error] = 'キャンセルに失敗しました。'
+    redirect_to event_path(@join.event)
   end
 
   protected

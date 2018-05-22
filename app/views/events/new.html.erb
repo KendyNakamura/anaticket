@@ -1,21 +1,56 @@
 <h1>新規イベント作成</h1>
-  <%= form_for @event, url: events_path, class: "row" do |f| %>
+  <%= form_for @event, url: events_confirms_path, method: "post", class: "row" do |f| %>
     <div class="col-lg-6 mt-5">
       <h5><%= f.label :タイトル %></h5>
       <%= f.text_field :title, class: "form-control mb-3" %>
       <h4><%= f.label :内容 %></h4>
       <%= f.text_area :content, class: "form-control mb-3", style: "height:200px;" %>
-      <!-- <h5><%= f.label :募集人数 %></h5>
-      <%= f.number_field :content, class: "form-control", min: 0, max: 999 %>
-      <h5 class="pt-3"><%= f.label :開始日 %></h5>
-      <%= f.date_field :content, class: "form-control" %>
+      <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
       <h5 class="pt-3"><%= f.label :開始時間 %></h5>
-      <%= f.time_select :content, class: "form-control" %> <br /> -->
-      <p class="pt-3"><%= f.check_box :check, id: "check", checked_value: "1", unchecked_value: "0" %>プライベートにする</p>
+      <p class="row ml-1"><%= raw sprintf(
+          f.datetime_select(
+            :start_time,
+            use_month_numbers: true,
+            minute_step: 15,
+            date_separator: '%s',
+            datetime_separator:  '%s',
+            time_separator: '%s'),
+            '年 ', '月 ', '日', '時') + '分' %> </p>
+      <h5 class="pt-3"><%= f.label :終了時間 %></h5>
+      <p class="row ml-1"><%= raw sprintf(
+          f.datetime_select(
+            :finish_time,
+            use_month_numbers: true,
+            default: Time.now + 2.hour,
+            minute_step: 15,
+            date_separator: '%s',
+            datetime_separator:  '%s',
+            time_separator: '%s'),
+            '年 ', '月 ', '日', '時') + '分' %> </p>
+      <label><%= f.radio_button :free, "0", class: "free-radio" , checked: "checked"%>無料</label>
+      <label><%= f.radio_button :free, "1", class: "free-radio" %>有料</label>
+      <div id="persons" class="mt-3">
+        <h5><%= f.label :募集人数 %></h5>
+        <%= f.number_field :max_persons, class: "form-control", min: 0, max: 999, placeholder: "人数無制限の場合、0にしてください" %>
+      </div>
+      <div class="ticket">
+        <%= f.fields_for :items do |b| %>
+          <h5 class="pt-3"><%= f.label :商品名 %></h5>
+          <%= b.text_field :name, class: "form-control", value: "チケット" %>
+          <h5 class="pt-3"><%= f.label :販売価格 %>(100円〜9999円)</h5>
+          <%= b.number_field :price, class: "form-control", in: 100...10000, placeholder: "販売価格を入力", id: "profit" %>
+          利益額: <span id="price"></span>
+          <h5 class="pt-3"><%= f.label :在庫 %>(1個〜30個)</h5>
+          <%= b.number_field :count, class: "form-control", in: 1...30, placeholder: "個数を記載してください" %>
+          <h5 class="pt-3"><%= f.label :詳細 %></h5>
+          <%= b.text_area :content, class: "form-control", placeholder: "商品の内容を記載" %>
+        <% end %>
+      </div>
+      <p class="pt-3"><%= f.check_box :check, id: "check", checked_value: "1", unchecked_value: "0" %>限定公開にする</p>
       <%= f.password_field :password, id: "password", placeholder: "パスワード(4桁以上)" %>
       <%= f.password_field :password_confirmation, id: "passwordConfirmation", placeholder: "確認パスワード" %>
       <span class="input-group-btn align-bottom">
-        <%= f.submit class: "btn btn-primary mt-4 float-right", value: "作成する" %>
+        <%= f.submit class: "btn btn-primary mt-4 float-right", value: "確認画面へ" %>
       </span>
     </div>
   <% end %>

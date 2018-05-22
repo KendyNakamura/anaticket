@@ -9,3 +9,4 @@
 5.times do |no|
   Event.create(:title => "タイトル #{no}", :content => "イベント #{no}", :password => "pass#{no}")
 end
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
