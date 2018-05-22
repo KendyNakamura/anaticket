@@ -1,7 +1,7 @@
 class Home::CardsController < HomeController
   before_action :user_find, only: %i[show create update]
   before_action :pay_api, only: %i[show create update]
-  before_action :customer_params, only: %i[show create update]
+  before_action :customer_params, only: %i[show update]
   protect_from_forgery except: %i[create update]
   def show
     return if current_user.card_token.nil?
@@ -11,17 +11,16 @@ class Home::CardsController < HomeController
 
   def create
     customer = Payjp::Customer.create(card: params['token'], email: current_user.email)
-    @user.card_token = customer.id
-    return unless @user.save
+    return unless current_user.update(card_token: customer.id)
     flash[:notice] = '保存しました。'
-    redirect_to "/home/#{@user.user_url}/card"
+    redirect_to home_card_path(current_user)
   end
 
   def update
     @card = @customer.cards.retrieve(@customer.default_card)
     return unless @card.delete && @customer.cards.create(card: params['token'])
     flash[:notice] = '更新完了'
-    redirect_to "/home/#{@user.user_url}/card"
+    redirect_to home_card_path(current_user)
   end
 
   protected

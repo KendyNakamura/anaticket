@@ -46,4 +46,4 @@ Style/ClassAndModuleChildren:
 # ABCチェックの基準を緩くした
 Metrics/AbcSize:
   Enabled: true
-  Max: 20
+  Max: 25

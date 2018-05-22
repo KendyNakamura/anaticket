@@ -3,16 +3,17 @@ Rails.application.routes.draw do
   root 'home#index'
   namespace :home do
     resources :profiles, only: %i[show update], param: :user_url
-    resources :cards, only: %i[show create update], param: :user_url
+    resources :cards, only: %i[show create], param: :user_url
+    post '/cards/:user_url' => 'cards#update'
   end
   # event
   resources :events, param: :event_url, only: %i[show new create destroy]
   resource :purchase, only: %i[create destroy]
-  resources :joins, only: %i[create destroy]
+  resource :joins, only: %i[create destroy]
   resource :items, only: %i[create destroy]
-
+  post '/events/pay/:event_url' => 'events/pay#create'
   namespace :events do
-    resource :pay, only: %i[create]
+    resources :pay, only: %i[create], param: :event_url
     resources :confirms, only: %i[show create], param: :event_url
     resources :finish, only: %i[show create], param: :event_url
     resource :password, only: %i[show create]

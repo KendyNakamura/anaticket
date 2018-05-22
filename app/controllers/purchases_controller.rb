@@ -9,10 +9,10 @@ class PurchasesController < ApplicationController
   end
 
   def destroy
-    price = (@purchase.item.price * 0.3 + 50).ceil
+    cancel_price = (@purchase.item.price * 0.3 + 50).ceil
     if (@purchase.event.finish_time - Time.now).negative?
       Payjp::Charge.create(
-        amount: price,
+        amount: cancel_price,
         customer: current_user.card_token,
         currency: 'jpy'
       )
@@ -24,7 +24,7 @@ class PurchasesController < ApplicationController
   protected
 
   def purchase_params
-    params.require(:purchase).permit(:event_id, :user_id, :item_id)
+    params.require(:purchase).permit(:event_id, :user_id, :item_id, :process)
   end
 
   def purchase_find

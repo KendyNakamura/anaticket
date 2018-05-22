@@ -6,6 +6,7 @@
       <span class="input-group-btn align-bottom">
         <%= f.submit class: "btn btn-primary my-4", value: "保存する" %>
       </span>
+      <div class="float-right"><%= @user.point %>point</div>
     <% end %>
     <p><%= link_to "クレジットカード情報を変更する", home_card_path, class: "" %></p>
     <p><%= link_to "パスワードを変更する", edit_user_registration_path, class: "" %></p>

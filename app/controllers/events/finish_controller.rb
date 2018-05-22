@@ -16,4 +16,21 @@ class Events::FinishController < EventsController
       render :new
     end
   end
+
+  private
+
+  def event_params
+    params.require(:event).permit(:title,
+                                  :content,
+                                  :max_persons,
+                                  :check,
+                                  :user_id,
+                                  :event_url,
+                                  :start_time,
+                                  :finish_time,
+                                  :free,
+                                  :password,
+                                  :password_confirmation,
+                                  items_attributes: %i[name content price count event_id])
+  end
 end
