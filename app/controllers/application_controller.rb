@@ -3,8 +3,9 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def card_confirm
+    return unless current_user.card_token.nil?
+    redirect_to home_card_path(current_user)
     flash[:notice] = 'カード情報を登録してください'
-    redirect_to home_card_path(current_user) if current_user.card_token.nil?
   end
 
   # override devise

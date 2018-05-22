@@ -1,4 +1,4 @@
-<%= form_for @event, url: events_password_path, method: "post" do |f| %>
+<%= form_for @event, url: events_password_index_path, method: "post" do |f| %>
   <%= f.label :パスワード %>
   <%= f.password_field :value, placeholder: "パスワードを入力してください" %>
   <%= f.submit class: "btn btn-primary mt-4 float-right", value: "認証" %>

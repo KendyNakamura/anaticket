@@ -1,0 +1,16 @@
+<%= form_for @bank, url: home_bank_path(current_user), method: :patch do |f| %>
+  <%= f.label :金融機関名 %>
+  <%= f.text_field :bank_name, class: "form-control mb-3 bank-width", value: "#{@bank.bank_name}" %>
+  <%= f.label :支店名 %>
+  <%= f.text_field :branch_name, class: "form-control mb-3 bank-width", value: "#{@bank.branch_name}" %>
+  <%= f.label :預金種目 %><br />
+  <p><%= f.select :deposit_type, [["普通預金", "1"], ["当座預金", "2"], ["貯蓄預金", "4"], ["その他", "9"]], class: "form-control mb-3", selected: "#{@bank.deposit_type}" %></p>
+  <%= f.label :口座番号 %>
+  <%= f.number_field :bank_num, class: "form-control mb-3 bank-width", value: "#{@bank.bank_num}" %>
+  <%= f.label :口座名義 %>
+  <%= f.text_field :account_holder, class: "form-control mb-3 bank-width", value: "#{@bank.account_holder}" %>
+  <%= f.hidden_field :user_id, class: "form-control mb-3", value: "#{current_user.id}" %>
+  <span class="input-group-btn align-bottom">
+    <%= f.submit class: "btn btn-primary my-4", value: "確定する", data: { confirm: "振り込み依頼をしますか？" } %>
+  </span>
+<% end %>

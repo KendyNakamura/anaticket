@@ -14,7 +14,7 @@ class EventsController < ApplicationController
     return unless @event.check == '1' \
     && session[:event_id] != @event.id \
     && @event.user.id != current_user.id
-    render :password
+    render template: 'events/password/show'
   end
 
   def destroy; end
@@ -46,7 +46,7 @@ class EventsController < ApplicationController
 
   def event_find
     @event = Event.find_by(event_url: params[:event_url])
-    @item = Item.find_by(event_id: @event.id)
+    @item = Item.find_or_initialize_by(event_id: @event.id)
     @join = Join.new
     @joins = Join.where(event_id: @event.id)
     @purchase = Purchase.find_by(user_id: current_user.id, event_id: @event.id)

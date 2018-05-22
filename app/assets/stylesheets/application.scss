@@ -41,6 +41,12 @@
   display:none
 }
 
+@media screen and (min-width: 600px){
+  .bank-width {
+    width: 50%;
+  }
+}
+
 @media screen and (max-width: 480px){
   .lg {
     display: none;
