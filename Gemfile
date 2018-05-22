@@ -28,6 +28,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'gon'
 
 # login
+gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'devise'
 gem 'omniauth-facebook'
 gem 'omniauth-line'
