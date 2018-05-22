@@ -36,6 +36,7 @@ class User < ApplicationRecord
   before_create :set_create_user_url
 
   has_many :event, inverse_of: :user, dependent: :destroy
+  has_many :bank, inverse_of: :user, dependent: :destroy
   has_many :joins, inverse_of: :user, dependent: :destroy
   has_many :purchases, inverse_of: :user, dependent: :destroy
   attr_accessor :current_password

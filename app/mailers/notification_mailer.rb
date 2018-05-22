@@ -8,4 +8,20 @@ class NotificationMailer < ApplicationMailer
       to: @event.user.email, &:html
     )
   end
+
+  def send_confirm_to_bank(user)
+    @user = user
+    mail(
+      subject: '振り込み依頼が完了しました。',
+      to: @user.email, &:html
+    )
+  end
+
+  def send_receive_to_bank(user)
+    @user = user
+    mail(
+      subject: '振り込み依頼です。',
+      to: 'kenji.nkmr.1117@gmail.com', &:html
+    )
+  end
 end

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   namespace :home do
     resources :profiles, only: %i[show update], param: :user_url
     resources :cards, only: %i[show create], param: :user_url
+    resources :bank, only: %i[new create update], param: :user_url
     post '/cards/:user_url' => 'cards#update'
   end
   # event
@@ -18,7 +19,7 @@ Rails.application.routes.draw do
     resources :pay, only: %i[create], param: :event_url
     resources :confirms, only: %i[show create], param: :event_url
     resources :finish, only: %i[show create], param: :event_url
-    resource :password, only: %i[show create]
+    resources :password, only: %i[show create], param: :event_url
   end
 
   # devise
