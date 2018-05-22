@@ -8,11 +8,12 @@ class ApplicationController < ActionController::Base
   end
 
   # override devise
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     home_card_path(current_user) if current_user.card_token.nil?
+    root_path(current_user)
   end
 
-  def after_sign_out_path_for(resource)
+  def after_sign_out_path_for(_resource)
     new_user_session_path
   end
 
