@@ -106,20 +106,7 @@
         <input type="button" class="btn btn-secondary mb-3" value="購入済み">
       <% end %>
     <% elsif (Time.now - @event.start_time).negative? %>
-      <!-- カード有効期限の確認 -->
-      <% Payjp.api_key = 'sk_test_c20011eceeec8b5bb590fb98' %>
-      <% customer = Payjp::Customer.retrieve(current_user.card_token) %>
-      <% card = customer.cards.retrieve(customer.default_card) %>
-      <% card_year = card.exp_year %>
-      <% card_month = card.exp_month %>
-      <% event_year = @event.finish_time.year %>
-      <% event_month = @event.finish_time.month %>
-      <% if card_year < event_year %>
-        イベント終了時にカードの有効期限が切れます。カードを更新は<%= link_to "こちら", home_card_path(current_user)%>
-      <% elsif card_year == event_year && card_month <= event_month %>
-          イベント終了時にカードの有効期限が切れます。カードを更新は<%= link_to "こちら", home_card_path(current_user)%>
-      <% else %>
-        購入できます。
+      <% if (@event.finish_time - Time.now) < 59.day %>
         <!-- まだ購入していない場合は、発券ボタン表示 -->
         <%= form_for :purchase, url: purchase_path, method: "post" do |f| %>
           <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
@@ -128,6 +115,9 @@
           <%= f.hidden_field :process, value: "0" %>
           <%= f.submit value: "発券する", class: "btn btn-primary mb-3", data: { confirm: "購入しますか？" } %>
         <% end %>
+      <% else %>
+        発売前です。
+        発売日は<%= @event.finish_time - 59.day %>です。
       <% end %>
     <% end %>
   <% end %>

@@ -10,23 +10,26 @@
       <p class="row ml-1"><%= raw sprintf(
           f.datetime_select(
             :start_time,
+            discard_year: true,
+            end_month: Time.now + 2.month,
             use_month_numbers: true,
             minute_step: 15,
             date_separator: '%s',
             datetime_separator:  '%s',
             time_separator: '%s'),
-            '年 ', '月 ', '日', '時') + '分' %> </p>
+            '月', '日', '時') + '分' %> </p>
       <h5 class="pt-3"><%= f.label :終了時間 %></h5>
       <p class="row ml-1"><%= raw sprintf(
           f.datetime_select(
             :finish_time,
+            discard_year: true,
             use_month_numbers: true,
             default: Time.now + 2.hour,
             minute_step: 15,
             date_separator: '%s',
             datetime_separator:  '%s',
             time_separator: '%s'),
-            '年 ', '月 ', '日', '時') + '分' %> </p>
+            '月', '日', '時') + '分' %> </p>
       <label><%= f.radio_button :free, "0", class: "free-radio" , checked: "checked"%>無料</label>
       <label><%= f.radio_button :free, "1", class: "free-radio" %>有料</label>
       <div id="persons" class="mt-3">
@@ -45,6 +48,8 @@
           <h5 class="pt-3"><%= f.label :詳細 %></h5>
           <%= b.text_area :content, class: "form-control", placeholder: "商品の内容を記載" %>
         <% end %>
+        <!-- <img class="mt-3" src="/add-button.png" width="30" height="30" id="button1">
+        <img class="mt-3" src="/add-button.png" width="30" height="30" id="button2"> -->
       </div>
       <p class="pt-3"><%= f.check_box :check, id: "check", checked_value: "1", unchecked_value: "0" %>限定公開にする</p>
       <%= f.password_field :password, id: "password", placeholder: "パスワード(4桁以上)" %>

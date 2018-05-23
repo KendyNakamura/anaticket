@@ -15,4 +15,24 @@ class Purchase < ApplicationRecord
   belongs_to :event, inverse_of: :purchases
   belongs_to :user, inverse_of: :purchases
   belongs_to :item, inverse_of: :purchases
+
+  def cansel_charge(purchase)
+    Payjp::Charge.create(
+      amount: (purchase.item.price * 0.3 + 50).ceil,
+      customer: purchase.user.card_token,
+      currency: 'jpy',
+      description: "id:#{purchase.user.id}様　キャンセル料"
+    )
+  end
+
+  def capture_charge(purchase)
+    Payjp::Charge.create(
+      amount: purchase.item.price,
+      customer: purchase.user.card_token,
+      currency: 'jpy',
+      capture: false,
+      expiry_days: 60,
+      description: "id:#{purchase.user.id}様 お支払い"
+    )
+  end
 end

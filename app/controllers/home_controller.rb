@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   before_action :customer_params, only: %i[card create_card update_card]
   protect_from_forgery except: %i[create_card update_card]
   def index
-    @events = Event.order('created_at desc')
+    @events = Event.order('start_time asc')
   end
 
   protected

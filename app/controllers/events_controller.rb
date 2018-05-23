@@ -8,6 +8,7 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
     @event.items.build
+    # 3.times { @event.items.build }
   end
 
   def show

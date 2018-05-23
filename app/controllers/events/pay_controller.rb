@@ -7,7 +7,8 @@ class Events::PayController < EventsController
   def create
     point = 0
     @purchases.each do |purchase|
-      Payjp::Charge.create(amount: purchase.item.price, customer: purchase.user.card_token, currency: 'jpy')
+      Payjp::Charge.retrieve(purchase.charge_id).capture
+      # Payjp::Charge.create(amount: purchase.item.price, customer: purchase.user.card_token, currency: 'jpy')
       purchase.update(process: '1')
       point += (purchase.item.price / 1.1).ceil
     end

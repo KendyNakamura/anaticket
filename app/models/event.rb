@@ -35,11 +35,12 @@ class Event < ApplicationRecord
 
   has_secure_password(validations: false)
 
-  def self.create_charge_by_token(token, amount)
+  def capture_charge(token, amount, user)
     Payjp::Charge.create(
       amount:   amount,
-      card:     token,
-      currency: 'jpy'
+      customer:     token,
+      currency: 'jpy',
+      description: "#{user}様　キャンセル料"
     )
   end
 
