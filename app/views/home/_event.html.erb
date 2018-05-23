@@ -5,7 +5,10 @@
         <h5><%= link_to "#{event.title}", event_path(event) %></h5>
       </div>
       <div class=" px-3 py-3">
-        <%= event.content %>
+        開始時間
+        <p><%= event.start_time %></p>
+        終了時間
+        <p><%= event.finish_time %></p>
       </div>
     </div>
   <% end %>

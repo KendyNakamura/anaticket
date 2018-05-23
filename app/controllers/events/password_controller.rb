@@ -16,6 +16,6 @@ class Events::PasswordController < EventsController
   end
 
   def session_params
-    params.require(:session).permit(:password)
+    params.require(:event).permit(:value)
   end
 end
