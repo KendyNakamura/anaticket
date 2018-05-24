@@ -2,21 +2,13 @@ class ItemsController < ApplicationController
   before_action :card_confirm, only: %i[create destroy]
   def create
     @item = Item.new(item_params)
-    if @item.save
-      flash[:notice] = '購入しました！'
-    else
-      flash[:error] = '購入できませんでした。'
-    end
+    @item.save ? flash[:notice] = '購入しました！' : flash[:error] = '購入できませんでした。'
     redirect_to event_path
   end
 
   def destroy
     @item = Item.find_by(item_params)
-    if @item.destroy
-      flash[:notice] = 'キャンセルしました。'
-    else
-      flash[:error] = 'キャンセルに失敗しました。'
-    end
+    @item.destroy ? flash[:notice] = 'キャンセルしました。' : flash[:error] = 'キャンセルに失敗しました。'
     redirect_to event_path
   end
 

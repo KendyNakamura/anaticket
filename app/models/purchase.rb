@@ -35,4 +35,12 @@ class Purchase < ApplicationRecord
       description: "id:#{purchase.user.id}様 お支払い"
     )
   end
+
+  def purchase_pay(purchases, point)
+    purchases.each do |purchase|
+      Payjp::Charge.retrieve(purchase.charge_id).capture
+      purchase.update(process: '1')
+      point += (purchase.item.price / 1.1).ceil
+    end
+  end
 end

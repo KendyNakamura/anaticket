@@ -4,7 +4,6 @@ class Events::PasswordController < EventsController
   def show; end
 
   def create
-    @event = Event.find_by(event_url: params[:event_url])
     if @event.authenticate(session_params[:value])
       flash[:notice] = '認証しました'
       session[:event_id] = @event.id
@@ -14,6 +13,8 @@ class Events::PasswordController < EventsController
       render :show
     end
   end
+
+  private
 
   def session_params
     params.require(:event).permit(:value)

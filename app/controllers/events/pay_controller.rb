@@ -6,12 +6,7 @@ class Events::PayController < EventsController
 
   def create
     point = 0
-    @purchases.each do |purchase|
-      Payjp::Charge.retrieve(purchase.charge_id).capture
-      # Payjp::Charge.create(amount: purchase.item.price, customer: purchase.user.card_token, currency: 'jpy')
-      purchase.update(process: '1')
-      point += (purchase.item.price / 1.1).ceil
-    end
+    @purchases.purchase_pay(@purchases, point)
     current_user.point += point
     if current_user.save
       flash[:notice] = "決済が完了しました。 今回の獲得ポイント#{point}"
