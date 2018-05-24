@@ -1,6 +1,6 @@
 class ChangeColumnToEvents < ActiveRecord::Migration[5.2]
   def change
-    change_column :events, :start_time :timestamptz
-    # change_column :events, :start_time, :datetime
+    remove_column :events, :start_time, :datetime
+    add_column :events, :start_time, :datetime
   end
 end
