@@ -35,14 +35,6 @@ class Event < ApplicationRecord
 
   has_secure_password(validations: false)
 
-  def self.create_charge_by_token(token, amount)
-    Payjp::Charge.create(
-      amount:   amount,
-      card:     token,
-      currency: 'jpy'
-    )
-  end
-
   def checked_on?
     check == '1'
   end

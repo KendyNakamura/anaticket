@@ -1,7 +1,7 @@
 class Home::ProfilesController < HomeController
   def show
     @user = User.find_by(user_url: params[:user_url])
-    @events = Event.order('created_at desc')
+    @events = Event.order('start_time asc')
     @purchases = Purchase.where(user_id: current_user.id).order('created_at desc')
   end
 

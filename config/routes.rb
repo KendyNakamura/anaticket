@@ -15,11 +15,13 @@ Rails.application.routes.draw do
   resource :joins, only: %i[create destroy]
   resource :items, only: %i[create destroy]
   post '/events/pay/:event_url' => 'events/pay#create'
+
   namespace :events do
     resources :pay, only: %i[create], param: :event_url
     resources :confirms, only: %i[show create], param: :event_url
     resources :finish, only: %i[show create], param: :event_url
-    resources :password, only: %i[show create], param: :event_url
+    resources :password, only: %i[show], param: :event_url
+    post '/password/authenticate/:event_url' => 'password#create'
   end
 
   # devise

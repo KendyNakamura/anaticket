@@ -4,19 +4,15 @@ class PurchasesController < ApplicationController
   def create
     @purchase = Purchase.new(purchase_params)
     return unless @purchase.save
+    charge = @purchase.capture_charge(@purchase)
+    @purchase.update(charge_id: charge.id)
     flash[:notice] = '購入が完了しました。決済はまだ行われません。'
     redirect_to event_path(@purchase.event)
   end
 
   def destroy
-    cancel_price = (@purchase.item.price * 0.3 + 50).ceil
-    if (@purchase.event.finish_time - Time.now).negative?
-      Payjp::Charge.create(
-        amount: cancel_price,
-        customer: current_user.card_token,
-        currency: 'jpy'
-      )
-    end
+    @purchase.cansel_charge(@purchase) if (@purchase.event.start_time - (Time.now + 1.day)).negative?
+    Payjp::Charge.retrieve(@purchase.charge_id).refund
     @purchase.destroy ? flash[:notice] = 'キャンセルしました。' : flash[:error] = 'キャンセルに失敗しました。'
     redirect_to event_path(@purchase.event)
   end

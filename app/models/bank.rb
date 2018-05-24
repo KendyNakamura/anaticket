@@ -21,4 +21,19 @@ class Bank < ApplicationRecord
   validates :deposit_type, presence: true
   validates :bank_num, presence: true
   validates :account_holder, presence: true
+
+  def bank_update(bank)
+    NotificationMailer.send_receive_to_bank(bank.user).deliver
+    bank.user.update(point: 0)
+  end
+
+  def bank_params
+    params[
+    :bank_name,
+    :branch_name,
+    :deposit_type,
+    :bank_num,
+    :account_holder,
+    :user_id]
+  end
 end

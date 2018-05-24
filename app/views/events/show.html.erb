@@ -89,34 +89,24 @@
   <% else %>
     <% if @purchase.present? %>
       <!-- イベント終了時間まではキャンセルできる -->
-      <% if (Time.now - @event.finish_time).negative? %>
+      <% if (Time.now - @event.start_time).negative? %>
         <!-- 購入キャンセル -->
         <%= form_for :purchase, url: purchase_path, method: "delete" do |f| %>
           <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
           <%= f.hidden_field :item_id, value: "#{@item.id}" %>
           <%= f.hidden_field :event_id, value: "#{@event.id}" %>
           <!-- 開始時間を過ぎるとキャンセル料がかかる -->
-          <% if (@event.start_time - Time.now).negative? %>
+          <% if (@event.start_time - (Time.now + 1.day)).negative? %>
             <%= f.submit value: "キャンセルする", class: "btn btn-danger mb-3", data: { confirm: "キャンセルしますか？キャンセル料が発生します。" } %>
           <% else %>
             <%= f.submit value: "キャンセルする", class: "btn btn-danger mb-3", data: { confirm: "キャンセルしますか？" } %>
           <% end %>
         <% end %>
-      <% end %>
-    <% else %>
-      <!-- カード有効期限の確認 -->
-      <% customer = Payjp::Customer.retrieve(current_user.card_token) %>
-      <% card = customer.cards.retrieve(customer.default_card) %>
-      <% card_year = card.exp_year %>
-      <% card_month = card.exp_month %>
-      <% event_year = @event.finish_time.year %>
-      <% event_month = @event.finish_time.month %>
-      <% if card_year < event_year %>
-        イベント終了時にカードの有効期限が切れます。カードを更新は<%= link_to "こちら", home_card_path(current_user)%>
-      <% elsif card_year == event_year && card_month <= event_month %>
-          イベント終了時にカードの有効期限が切れます。カードを更新は<%= link_to "こちら", home_card_path(current_user)%>
       <% else %>
-        購入できます。
+        <input type="button" class="btn btn-secondary mb-3" value="購入済み">
+      <% end %>
+    <% elsif (Time.now - @event.start_time).negative? %>
+      <% if (@event.finish_time - Time.now) < 59.day %>
         <!-- まだ購入していない場合は、発券ボタン表示 -->
         <%= form_for :purchase, url: purchase_path, method: "post" do |f| %>
           <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
@@ -125,6 +115,9 @@
           <%= f.hidden_field :process, value: "0" %>
           <%= f.submit value: "発券する", class: "btn btn-primary mb-3", data: { confirm: "購入しますか？" } %>
         <% end %>
+      <% else %>
+        発売前です。
+        発売日は<%= @event.finish_time - 59.day %>です。
       <% end %>
     <% end %>
   <% end %>

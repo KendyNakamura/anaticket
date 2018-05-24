@@ -25,21 +25,6 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
   end
 
-  # def event_params
-  #   params.require(:event).permit(:title,
-  #                                 :content,
-  #                                 :max_persons,
-  #                                 :check,
-  #                                 :user_id,
-  #                                 :event_url,
-  #                                 :start_time,
-  #                                 :finish_time,
-  #                                 :free,
-  #                                 :password,
-  #                                 :password_confirmation,
-  #                                 items_attributes: %i[name content price count event_id])
-  # end
-
   def payjp_api
     Payjp.api_key = 'sk_test_c20011eceeec8b5bb590fb98'
   end
