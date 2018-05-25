@@ -13,13 +13,6 @@ if Rails.env.production?
     authentication: :plain,
     enable_starttls_auto: true
   }
-  # ActionMailer::Base.smtp_settings = {
-  #   address: 'smtp.gmail.com',
-  #   port: 587,
-  #   authentication: :plain,
-  #   user_name: Rails.application.credentials.SMTP_EMAIL,
-  #   password: Rails.application.credentials.SMTP_PASSWORD
-  # }
 elsif Rails.env.development?
   ActionMailer::Base.delivery_method = :letter_opener
 else
