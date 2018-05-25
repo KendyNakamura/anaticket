@@ -28,7 +28,7 @@ class NotificationMailer < ApplicationMailer
   def send_test
     mail(
       subject: 'テストメール。',
-      to: 'kenji.nkmr.1117@gmail.com', &:html
+      to: ENV['EMAIL'], &:html
     )
   end
 end
