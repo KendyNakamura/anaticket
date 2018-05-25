@@ -286,7 +286,7 @@ Devise.setup do |config|
     config.secret_key = ENV['SECRET_KEY']
     config.omniauth :facebook,
                     ENV['FACEBOOK_APP_ID'],
-                    ENV['FACEBOOK_APP_SECRET'],
+                    ENV['FACEBOOK_APP_SECRET']
     config.omniauth :line,
                     ENV['LINE_KEY'],
                     ENV['LINE_SECRET']
