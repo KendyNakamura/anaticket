@@ -48,10 +48,11 @@
           <h5 class="pt-3"><%= f.label :詳細 %></h5>
           <%= b.text_area :content, class: "form-control", placeholder: "商品の内容を記載" %>
         <% end %>
-        <!-- <img class="mt-3" src="/add-button.png" width="30" height="30" id="button1">
-        <img class="mt-3" src="/add-button.png" width="30" height="30" id="button2"> -->
       </div>
-      <p class="pt-3"><%= f.check_box :check, id: "check", checked_value: "1", unchecked_value: "0" %>限定公開にする</p>
+      <p class="pt-3">
+        <%= f.check_box :check, id: "check", checked: true, checked_value: "1", unchecked_value: "0" %>
+        限定公開にする
+      </p>
       <%= f.password_field :password, id: "password", placeholder: "パスワード(4桁以上)" %>
       <%= f.password_field :password_confirmation, id: "passwordConfirmation", placeholder: "確認パスワード" %>
       <span class="input-group-btn align-bottom">

@@ -16,7 +16,7 @@ class Purchase < ApplicationRecord
   belongs_to :user, inverse_of: :purchases
   belongs_to :item, inverse_of: :purchases
 
-  def cansel_charge(purchase)
+  def self.cansel_charge(purchase)
     Payjp::Charge.create(
       amount: (purchase.item.price * 0.3 + 50).ceil,
       customer: purchase.user.card_token,
@@ -25,7 +25,7 @@ class Purchase < ApplicationRecord
     )
   end
 
-  def capture_charge(purchase)
+  def self.capture_charge(purchase)
     Payjp::Charge.create(
       amount: purchase.item.price,
       customer: purchase.user.card_token,
@@ -42,5 +42,9 @@ class Purchase < ApplicationRecord
       purchase.update(process: '1')
       point += (purchase.item.price / 1.1).ceil
     end
+  end
+
+  def self.cansel_time(purchase)
+    (purchase.event.start_time - (Time.now + 1.day)).negative?
   end
 end

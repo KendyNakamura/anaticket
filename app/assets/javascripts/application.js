@@ -20,10 +20,12 @@
 
 // 制限付きイベント作成時
 $(function() {
-  $('#password').addClass("hide");
-  $('#passwordConfirmation').addClass("hide");
+  // $('#password').addClass("hide");
+  // $('#passwordConfirmation').addClass("hide");
 
-  $('#check').click(function() {
+  $(document).on('click', '#check', function(event) {
+  // $('#check').click(function() {
+    // if ( $(this).val('#check') == '0' ) {
     if ( $(this).prop('checked') == false ) {
       $('#password').addClass("hide");
       $('#passwordConfirmation').addClass("hide");
@@ -38,8 +40,7 @@ $(function() {
 $(function() {
   $('.ticket').addClass("hide");
 
-  // $('#radio').click(function() {
-  $('.free-radio').click( function() {
+  $(document).on('click', '.free-radio', function(event) {
     if ( $('#event_free_0').prop('checked')) {
       $('.ticket').addClass("hide");
       $('#persons').removeClass("hide");
