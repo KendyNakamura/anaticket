@@ -21,14 +21,14 @@
     <!-- 参加していない場合 -->
     <% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
       <!-- 募集人数を超えている場合、満員ボタン表示 -->
-      <% if @joins.count == @event.max_persons && @event.max_persons != 0 %>
+      <% if @event.joins.count == @event.max_persons && @event.max_persons != 0 %>
         <div class="btn btn-secondary">満員です</div>
       <% else %>
         <%= form_with model: @join, url: joins_path, local: true do |f| %>
           <%= f.hidden_field :event_id, value: "#{@event.id}" %>
           <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
           <%= f.submit value: "参加予約する", class: "btn btn-primary mb-3", data: { confirm: "参加予約をしますか？" } %>
-          <p>現在の参加人数<%= @joins.count %>人</p>
+          <p>現在の参加人数<%= @event.joins.count %>人</p>
         <% end %>
       <% end %>
     <% else %>
@@ -37,7 +37,7 @@
         <%= f.hidden_field :event_id, value: "#{@event.id}" %>
         <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
         <%= f.submit value: "キャンセル", class: "btn btn-danger mb-3", data: { confirm: "キャンセルしますか？" } %>
-        <p>現在の参加人数<%= @joins.count %>人</p>
+        <p>現在の参加人数<%= @event.joins.count %>人</p>
       <% end %>
     <% end %>
   <% else %>
@@ -46,7 +46,7 @@
   <% end %>
 
   <h5 class="my-4">参加者</h5>
-  <% @joins.each do |join| %>
+  <% @event.joins.each do |join| %>
     <p class="border-top py-2"><%= link_to "#{join.user.name}", "/home/#{join.user.user_url}" %></p>
   <% end %>
 <% end %>
@@ -58,10 +58,12 @@
   <!-- 自分が作成したイベント -->
   <% if @event.user.id == current_user.id %>
     <!-- 購入者がいた場合、終了時間後に決済ボタンを出現させる -->
+    <%= link_to 'イベントをキャンセルする', event_url, method: :delete, class: "btn btn-danger mb-3", data: { confirm: "イベントをキャンセルしますか？" } %><br />
     <% if @purchases.exists? %>
       <% if (@event.finish_time - Time.now).negative? %>
         <!-- 合計決済金額と作成者の獲得ポイント -->
         <%sumPrice = 0%>
+        <%= Purchase.find(event_id: @event.id) %>
         <% @purchases.each do |purchase|%>
           <% sumPrice += purchase.item.price %>
         <% end %>
@@ -107,13 +109,18 @@
       <% end %>
     <% elsif (Time.now - @event.start_time).negative? %>
       <% if (@event.finish_time - Time.now) < 59.day %>
-        <!-- まだ購入していない場合は、発券ボタン表示 -->
-        <%= form_for :purchase, url: purchase_path, method: "post" do |f| %>
-          <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
-          <%= f.hidden_field :item_id, value: "#{@item.id}" %>
-          <%= f.hidden_field :event_id, value: "#{@event.id}" %>
-          <%= f.hidden_field :process, value: "0" %>
-          <%= f.submit value: "発券する", class: "btn btn-primary mb-3", data: { confirm: "購入しますか？" } %>
+        <!-- チケット枚数が上限に達した場合 -->
+        <% if @event.purchases.exists? && @event.purchases.count >= @item.count %>
+          <input type="button" class="btn btn-secondary mb-3" value="販売終了">
+        <% else %>
+          <!-- まだ購入していない場合は、発券ボタン表示 -->
+          <%= form_for :purchase, url: purchase_path, method: "post" do |f| %>
+            <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+            <%= f.hidden_field :item_id, value: "#{@item.id}" %>
+            <%= f.hidden_field :event_id, value: "#{@event.id}" %>
+            <%= f.hidden_field :process, value: "0" %>
+            <%= f.submit value: "発券する", class: "btn btn-primary mb-3", data: { confirm: "購入しますか？" } %>
+          <% end %>
         <% end %>
       <% else %>
         発売前です。

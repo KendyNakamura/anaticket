@@ -25,10 +25,11 @@ class NotificationMailer < ApplicationMailer
     )
   end
 
-  def send_test
+  def send_event_cansel(purchase)
+    @purchase = purchase
     mail(
-      subject: 'テストメール。',
-      to: ENV['EMAIL'], &:html
+      subject: 'イベントがキャンセルされました。',
+      to: @purchase.user.email, &:html
     )
   end
 end
