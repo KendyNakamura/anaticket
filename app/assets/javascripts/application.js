@@ -21,7 +21,6 @@
 //= require_tree .
 
 // カレンダーフォームの作成
-
 $(function () {
   var dt = new Date()
   var maxdt = dt.setDate(dt.getDate() + 59);
@@ -29,14 +28,22 @@ $(function () {
       format: 'YYYY/MM/DD HH:mm',
       stepping: 15,
       minDate: Date(),
-      maxDate: maxdt
+      maxDate: maxdt,
+      widgetPositioning: {
+          horizontal: 'right',
+          vertical: 'bottom'
+      }
     });
     var finish_time = $('#start_time').data("DateTimePicker")
     $('#finish_time').datetimepicker({
         useCurrent: false, //Important! See issue #1075
         format: 'YYYY/MM/DD HH:mm',
         stepping: 15,
-        maxDate: maxdt
+        maxDate: maxdt,
+        widgetPositioning: {
+            horizontal: 'right',
+            vertical: 'bottom'
+        }
     });
     $("#start_time").on("dp.change", function (e) {
         $('#finish_time').data("DateTimePicker").minDate(e.date);
