@@ -1,5 +1,6 @@
 class Events::FinishController < EventsController
   before_action :authenticate_user!, only: %i[show]
+  before_action :join_find, only: %i[show]
   before_action :event_find, only: %i[show]
   def show; end
 

@@ -21,14 +21,14 @@
     <!-- 参加していない場合 -->
     <% unless Join.find_by(user_id: current_user.id, event_id: @event.id).present? %>
       <!-- 募集人数を超えている場合、満員ボタン表示 -->
-      <% if @joins.count == @event.max_persons && @event.max_persons != 0 %>
+      <% if @event.joins.count == @event.max_persons && @event.max_persons != 0 %>
         <div class="btn btn-secondary">満員です</div>
       <% else %>
         <%= form_with model: @join, url: joins_path, local: true do |f| %>
           <%= f.hidden_field :event_id, value: "#{@event.id}" %>
           <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
           <%= f.submit value: "参加予約する", class: "btn btn-primary mb-3", data: { confirm: "参加予約をしますか？" } %>
-          <p>現在の参加人数<%= @joins.count %>人</p>
+          <p>現在の参加人数<%= @event.joins.count %>人</p>
         <% end %>
       <% end %>
     <% else %>
@@ -37,7 +37,7 @@
         <%= f.hidden_field :event_id, value: "#{@event.id}" %>
         <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
         <%= f.submit value: "キャンセル", class: "btn btn-danger mb-3", data: { confirm: "キャンセルしますか？" } %>
-        <p>現在の参加人数<%= @joins.count %>人</p>
+        <p>現在の参加人数<%= @event.joins.count %>人</p>
       <% end %>
     <% end %>
   <% else %>
@@ -46,7 +46,7 @@
   <% end %>
 
   <h5 class="my-4">参加者</h5>
-  <% @joins.each do |join| %>
+  <% @event.joins.each do |join| %>
     <p class="border-top py-2"><%= link_to "#{join.user.name}", "/home/#{join.user.user_url}" %></p>
   <% end %>
 <% end %>

@@ -3,8 +3,8 @@ require 'payjp'
 class EventsController < ApplicationController
   before_action :authenticate_user!
   before_action :card_confirm
-  before_action :event_find, only: %i[show destroy]
   before_action :join_find, only: %i[show destroy]
+  before_action :event_find, only: %i[show destroy]
 
   def new
     @event = Event.new
@@ -40,13 +40,13 @@ class EventsController < ApplicationController
 
   def event_find
     @event = Event.find_by(event_url: params[:event_url])
-    @item = Item.find_or_initialize_by(event_id: @event.id)
+    @item = Item.find_by(event_id: @event.id)
     @purchase = Purchase.find_by(user_id: current_user.id, event_id: @event.id)
     @purchases = Purchase.where(event_id: @event.id)
   end
 
   def join_find
     @join = Join.new
-    @joins = Join.where(event_id: @event.id)
+    # @joins = Join.where(event_id: @event.id)
   end
 end

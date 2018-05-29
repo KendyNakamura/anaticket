@@ -14,18 +14,41 @@
 //= require tether
 //= require jquery3
 //= require popper
-//= require bootstrap
+//= require bootstrap-sprockets
+//= require moment
+//= require bootstrap-datetimepicker
 //= require activestorage
 //= require_tree .
 
+// カレンダーフォームの作成
+
+$(function () {
+  var dt = new Date()
+  var maxdt = dt.setDate(dt.getDate() + 59);
+    $('#start_time').datetimepicker({
+      format: 'YYYY/MM/DD HH:mm',
+      stepping: 15,
+      minDate: Date(),
+      maxDate: maxdt
+    });
+    var finish_time = $('#start_time').data("DateTimePicker")
+    $('#finish_time').datetimepicker({
+        useCurrent: false, //Important! See issue #1075
+        format: 'YYYY/MM/DD HH:mm',
+        stepping: 15,
+        maxDate: maxdt
+    });
+    $("#start_time").on("dp.change", function (e) {
+        $('#finish_time').data("DateTimePicker").minDate(e.date);
+    });
+    $("#finish_time").on("dp.change", function (e) {
+        $('#start_time').data("DateTimePicker").maxDate(e.date);
+    });
+});
+
 // 制限付きイベント作成時
 $(function() {
-  // $('#password').addClass("hide");
-  // $('#passwordConfirmation').addClass("hide");
-
   $(document).on('click', '#check', function(event) {
-  // $('#check').click(function() {
-    // if ( $(this).val('#check') == '0' ) {
     if ( $(this).prop('checked') == false ) {
       $('#password').addClass("hide");
       $('#passwordConfirmation').addClass("hide");
