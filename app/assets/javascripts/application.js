@@ -18,7 +18,13 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require activestorage
+//= require clipboard
 //= require_tree .
+
+$(function () {
+  var clipboard = new Clipboard('.clipboard-btn');
+  console.log(clipboard);
+});
 
 // カレンダーフォームの作成
 $(function () {
