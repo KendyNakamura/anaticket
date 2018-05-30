@@ -13,17 +13,18 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def basic_action
     @omniauth = request.env['omniauth.auth']
-    if @omniauth.present?
-      @profile = User.where(auth_params).first
-      if @profile
-        sign_in(:user, @profile)
-      else
-        @profile = current_user || User.create!(authuser_params)
-        sign_in(:user, @profile)
-        redirect_to(edit_user_registration_path) && return
-      end
-    end
-    flash[:notice] = 'ログインしました'
+    return unless @omniauth.present?
+    @profile = User.where(auth_params).first
+    @profile ||= current_user || User.create!(authuser_params)
+    # if @profile
+    #   sign_in(:user, @profile)
+    # else
+    #   @profile = current_user || User.create!(authuser_params)
+    #   sign_in(:user, @profile)
+    #   redirect_to(home_card_path) && return
+    # end
+    sign_in(:user, @profile)
+    flash[:notice] = 'ログインしました!'
     redirect_to root_path
   end
 

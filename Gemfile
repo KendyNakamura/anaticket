@@ -3,16 +3,16 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.4.3'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
 # server
 gem 'mysql2', '>= 0.4.4', '< 0.6.0', group: :development
 gem 'pg', group: :production
 gem 'puma', '~> 3.11'
 # view
-gem 'bootstrap'
+gem 'bootstrap-sass'
 gem 'bootstrap-social-rails'
 gem 'font-awesome-rails'
+gem 'font-awesome-sass'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'jquery-turbolinks'
@@ -25,6 +25,7 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'clipboard-rails'
 gem 'gon'
 
 # login
@@ -34,6 +35,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-line'
 gem 'paranoia'
 
+gem 'bootstrap3-datetimepicker-rails'
+gem 'momentjs-rails'
 gem 'payjp'
 gem 'rails_12factor', group: :production
 

@@ -3,7 +3,8 @@ require 'payjp'
 class EventsController < ApplicationController
   before_action :authenticate_user!
   before_action :card_confirm
-  before_action :event_find, only: %i[show]
+  before_action :join_find, only: %i[show destroy]
+  before_action :event_find, only: %i[show destroy]
 
   def new
     @event = Event.new
@@ -17,7 +18,15 @@ class EventsController < ApplicationController
     render template: 'events/password/show'
   end
 
-  def destroy; end
+  def destroy
+    @purchases.each do |purchase|
+      Payjp::Charge.retrieve(purchase.charge_id).refund
+      NotificationMailer.send_event_cansel(purchase).deliver if purchase.destroy
+    end
+    @event.destroy
+    flash[:notice] = 'イベントをキャンセルしました。'
+    redirect_to root_path
+  end
 
   protected
 
@@ -31,10 +40,13 @@ class EventsController < ApplicationController
 
   def event_find
     @event = Event.find_by(event_url: params[:event_url])
-    @item = Item.find_or_initialize_by(event_id: @event.id)
-    @join = Join.new
-    @joins = Join.where(event_id: @event.id)
+    @item = Item.find_by(event_id: @event.id)
     @purchase = Purchase.find_by(user_id: current_user.id, event_id: @event.id)
     @purchases = Purchase.where(event_id: @event.id)
+  end
+
+  def join_find
+    @join = Join.new
+    # @joins = Join.where(event_id: @event.id)
   end
 end
