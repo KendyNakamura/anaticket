@@ -26,6 +26,7 @@
 #  card_token             :string(255)
 #  point                  :integer
 #  deleted_at             :datetime
+#  role                   :integer          default(0), not null
 #
 
 require 'payjp'
@@ -34,6 +35,8 @@ class User < ApplicationRecord
   # paranoia soft_delete
   acts_as_paranoid
   before_create :set_create_user_url
+
+  enum role: { user: 0, admin: 1 }
 
   has_many :event, inverse_of: :user, dependent: :destroy
   has_many :bank, inverse_of: :user, dependent: :destroy
