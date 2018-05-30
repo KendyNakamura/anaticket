@@ -26,6 +26,7 @@
 #  card_token             :string(255)
 #  point                  :integer
 #  deleted_at             :datetime
+#  role                   :integer          default(0), not null
 #
 
 FactoryBot.define do
