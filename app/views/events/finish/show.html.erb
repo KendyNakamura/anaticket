@@ -2,6 +2,11 @@
 
 <script src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 
+<textarea id="bar" rows="1" cols="40"><%= "https://f549bbd6.ngrok.io/events#{@event.event_url}"%></textarea>
+<button class="clipboard-btn btn btn-info" data-clipboard-action="copy" data-clipboard-target="#bar">
+    URLコピー
+</button>
+
 <h5>タイトル</h5>
 <p class="mb-3"><%= @event.title %></p>
 
